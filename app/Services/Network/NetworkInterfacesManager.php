@@ -41,8 +41,7 @@ class NetworkInterfacesManager
     protected function getInterfaces()
     {
         $data = is_local_envorioment() ? $this->interfacesForDevelopment() : shell_exec('ls -1 /sys/class/net');
-        $interfacesNames = (explode(PHP_EOL, $data));
-        return ($interfacesNames);
+        return explode(PHP_EOL, $data);
     }
 
     /**

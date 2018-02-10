@@ -1686,7 +1686,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             network: {
                 name: '',
                 type: 'dhcp',
-                ip: '',
+                ip_address: '',
                 mask: '',
                 gateway: '',
                 dns: ''
@@ -36249,8 +36249,8 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.network.ip,
-                expression: "network.ip"
+                value: _vm.network.ip_address,
+                expression: "network.ip_address"
               }
             ],
             staticClass: "form-control",
@@ -36260,13 +36260,13 @@ var render = function() {
               id: "ip_address",
               required: _vm.isStatic
             },
-            domProps: { value: _vm.network.ip },
+            domProps: { value: _vm.network.ip_address },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.network, "ip", $event.target.value)
+                _vm.$set(_vm.network, "ip_address", $event.target.value)
               }
             }
           })

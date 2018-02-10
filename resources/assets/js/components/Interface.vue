@@ -11,7 +11,7 @@
 
         <div class="form-group" v-if="isStatic">
             <label for="ip_address">IP Address</label>
-            <input type="text" v-model="network.ip" name="ip_address" id="ip_address" class="form-control" :required="isStatic">
+            <input type="text" v-model="network.ip_address" name="ip_address" id="ip_address" class="form-control" :required="isStatic">
         </div>
 
         <div class="form-group" v-if="isStatic">
@@ -48,7 +48,7 @@
                 network:{
                     name: '',
                     type: 'dhcp',
-                    ip: '',
+                    ip_address: '',
                     mask: '',
                     gateway: '',
                     dns: '',
