@@ -52,9 +52,10 @@ class NetworkInterfacesManager
         $pattern = config('nim.interfaces.pattern');
         $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
         if (empty($output)) return [];
-        $output = explode(PHP_EOL, $output);
+        $out = explode(PHP_EOL, $output);
+        Log::info($out);
         $array = [];
-        foreach ($output as $line) {
+        foreach ($out as $line) {
             if (!empty($line)) $array[] = $line;
         }
         Log::info($line);
