@@ -63,8 +63,8 @@
         methods:{
             save(){
                 axios.post('/api/network-interface/' + this.interface.name, this.network).then(response => {
-                    console.log(response)
-                })
+                    Alert.success('System rebooting, please wait!');
+                });
             }
         },
 
