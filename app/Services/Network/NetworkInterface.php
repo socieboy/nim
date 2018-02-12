@@ -164,7 +164,8 @@ EOF;
 
     public function update($data)
     {
-        $content = 'iface ' . $this->name . ' inet ';
+        $content = 'auto ' . $this->name . PHP_EOL;
+        $content .= 'iface ' . $this->name . ' inet ';
 
         if ($data['type'] == 'dhcp') {
             $content .= 'dhcp';
