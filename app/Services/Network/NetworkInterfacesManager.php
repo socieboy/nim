@@ -33,7 +33,7 @@ class NetworkInterfacesManager
         try {
             $interface = new NetworkInterface($interface);
             $interface->update($data);
-            shell_exec('sudo /sbin/reboot now');
+            shell_exec('sudo /sbin/reboot');
             return true;
         } catch (\Exception $exception) {
             return false;
