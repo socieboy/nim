@@ -170,6 +170,7 @@ EOF;
         if ($data['type'] == 'dhcp') {
             $content .= 'dhcp';
             $this->writeFile($content);
+            return;
         }
 
         $content .= 'static' . PHP_EOL;
