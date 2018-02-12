@@ -8,12 +8,9 @@ The idea of this application is creating a web based application to read and wri
 + VueJS
 + SASS
 
-Execute the following command in order to write the interfaces.d folder.
+Execute the following command to give permissions to www-data user.
 ```
 sudo chown www-data:www-data /etc/network/interfaces.d
-```
-
-Give permission to the web app to reboot the system
-```
-www-data ALL=(root) NOPASSWD: /sbin/reboot
+www-data ALL=(root) NOPASSWD: service/networking/restart
+sudo chown www-data:www-data /sbin/ifconfig
 ```
