@@ -86,9 +86,9 @@ class NetworkInterface
      */
     private function loadInterfaceConfiguration()
     {
-        $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : exec('sudo /sbin/ifconfig ' . $this->name);
+        $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec('sudo /sbin/ifconfig ' . $this->name);
         Log::info($output);
-        
+
         $regex = [];
 
         preg_match("/^({$this->name})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
