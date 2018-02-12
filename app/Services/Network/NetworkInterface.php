@@ -6,34 +6,84 @@ use Illuminate\Support\Facades\File;
 
 class NetworkInterface
 {
+    /**
+     * Network interface name.
+     *
+     * @var $string
+     */
     public $name;
 
+    /**
+     * Ethernet, Wireless, LTE.
+     *
+     * @var string
+     */
     public $mode = '';
 
+    /**
+     * DHCP, Static.
+     *
+     * @var string
+     */
     public $type = '';
 
+    /**
+     * IP Address.
+     *
+     * @var string
+     */
     public $ip_address = '';
 
+    /**
+     * Netmask.
+     *
+     * @var string
+     */
     public $netmask = '';
 
+    /**
+     * Gateway.
+     *
+     * @var string
+     */
     public $gateway = '';
 
+    /**
+     * DNS nameservers.
+     *
+     * @var string
+     */
     public $dns = '';
 
+    /**
+     * Metric priority.
+     *
+     * @var string
+     */
     public $metric = '';
 
+    /**
+     * MAC address.
+     *
+     * @var
+     */
     public $mac;
 
+    /**
+     * Create a new instance of Network Interface object.
+     *
+     * @param $name
+     */
     public function __construct($name)
     {
         $this->name = $name;
-        $this->resolveInterface();
+        $this->loadInterfaceConfiguration();
     }
 
     /**
-     * Assign the information for the interface name provide.
+     * Load the config information of the interface.
      */
-    private function resolveInterface()
+    private function loadInterfaceConfiguration()
     {
         $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : exec('ifconfig ' . $this->name);
 

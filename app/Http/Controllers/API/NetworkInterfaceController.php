@@ -29,6 +29,7 @@ class NetworkInterfaceController extends Controller
             'gateway' => 'required_if:type,static|ip',
             'dns' => 'required_if:type,static|ip',
         ]);
+        dd($data);
         return NetworkInterfacesManager::write($data);
     }
 }
