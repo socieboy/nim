@@ -21,9 +21,23 @@ class NetworkInterfacesManager
         return $array;
     }
 
+    /**
+     * Find the interface privided and update the settings.
+     *
+     * @param $interface
+     * @param $data
+     * @return int
+     */
     public function write($interface, $data)
     {
-        // Write new interface config and restar network service.
+        try {
+            $interface = new NetworkInterface($interface);
+            $interface->update($data);
+            shell_exec('sudo /sbin/reboot now');
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
     }
 
     /**

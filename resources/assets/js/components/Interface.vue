@@ -62,7 +62,7 @@
 
         methods:{
             save(){
-                axios.post('/api/network-interface/' + this.interface.name).then(response => {
+                axios.post('/api/network-interface/' + this.interface.name, this.network).then(response => {
                     console.log(response)
                 })
             }

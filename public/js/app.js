@@ -1700,7 +1700,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         save: function save() {
-            axios.post('/api/network-interface/' + this.interface.name).then(function (response) {
+            axios.post('/api/network-interface/' + this.interface.name, this.network).then(function (response) {
                 console.log(response);
             });
         }

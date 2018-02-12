@@ -27,13 +27,12 @@ class NetworkInterfaceController extends Controller
     {
         $data = request()->validate([
             'type' => 'required|in:dhcp,static',
-            'ip' => 'required_if:type,static|ip',
+            'ip_address' => 'required_if:type,static|ip',
             'netmask' => 'required_if:type,static|ip',
             'gateway' => 'required_if:type,static|ip',
-            'dns' => 'required_if:type,static|ip',
+            'dns' => 'sometimes',
         ]);
         $status = NetworkInterfacesManager::write($interface, $data);
-
         return response([
             'status' => $status
         ]);

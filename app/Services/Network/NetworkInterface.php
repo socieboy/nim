@@ -25,7 +25,7 @@ class NetworkInterface
      *
      * @var string
      */
-    public $type = '';
+    public $type = 'dhcp';
 
     /**
      * IP Address.
@@ -162,6 +162,34 @@ eth0      Link encap:Ethernet  HWaddr aa:57:82:94:01:47
 EOF;
     }
 
+    public function update($data)
+    {
+        $content = 'iface ' . $this->name . ' inet ';
+
+        if ($data['type'] == 'dhcp') {
+            $content .= 'dhcp';
+            $this->writeFile($content);
+        }
+
+        $content .= 'static' . PHP_EOL;
+        $content .= 'address ' . $data['ip_address'] . PHP_EOL;
+        $content .= 'netmask ' . $data['netmask'] . PHP_EOL;
+        $content .= 'gateway ' . $data['gateway'] . PHP_EOL;
+        $content .= 'dns-nameservers ' . $data['dns'];
+        $this->writeFile($content);
+    }
+
+    /**
+     * Write the interfaces file.
+     *
+     * @param $content
+     * @return int
+     */
+    protected function writeFile($content)
+    {
+        File::put($this->interfaceFilePath(), $content);
+    }
+
     /**
      * Return the path for the interfaces file.
      *
@@ -169,6 +197,10 @@ EOF;
      */
     protected function interfaceFilePath()
     {
-        return (is_local_envorioment()) ? base_path('resources/stubs/interface_' . $this->name) : '/etc/network/interfaces.d/interface_' . $this->name;
+        $path = (is_local_envorioment()) ? base_path('resources/stubs/interface_' . $this->name) : '/etc/network/interfaces.d/interface_' . $this->name;
+        if (!File::exists($path)) {
+            File::put($path, '');
+        }
+        return $path;
     }
 }
