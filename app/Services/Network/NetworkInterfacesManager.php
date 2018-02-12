@@ -17,12 +17,13 @@ class NetworkInterfacesManager
 
     public function write($interface, $data)
     {
+        // Write new interface config and restar network service.
     }
 
     /**
      * Create a Network Interface object for each interface
      * and return an array with all interfaces.
-     * 
+     *
      * @return array
      */
     protected function getInterfaces()

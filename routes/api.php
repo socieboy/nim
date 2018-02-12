@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('network-interfaces', 'API\NetworkInterfaceController@index');
-Route::post('network-interface', 'API\NetworkInterfaceController@store');
+Route::post('network-interface/{interface}', 'API\NetworkInterfaceController@store');

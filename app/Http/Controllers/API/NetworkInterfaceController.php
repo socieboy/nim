@@ -23,7 +23,7 @@ class NetworkInterfaceController extends Controller
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function store($name)
+    public function store($interface)
     {
         $data = request()->validate([
             'type' => 'required|in:dhcp,static',
@@ -32,7 +32,7 @@ class NetworkInterfaceController extends Controller
             'gateway' => 'required_if:type,static|ip',
             'dns' => 'required_if:type,static|ip',
         ]);
-        $status = NetworkInterfacesManager::write($name, $data);
+        $status = NetworkInterfacesManager::write($interface, $data);
 
         return response([
             'status' => $status
