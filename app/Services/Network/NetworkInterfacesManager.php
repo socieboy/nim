@@ -2,6 +2,8 @@
 
 namespace App\Services\Network;
 
+use Illuminate\Support\Facades\Log;
+
 class NetworkInterfacesManager
 {
 
