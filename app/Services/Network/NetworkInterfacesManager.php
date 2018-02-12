@@ -49,6 +49,7 @@ class NetworkInterfacesManager
     {
         $pattern = config('nim.interfaces.pattern');
         $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
+        Log::info($output);
         if (empty($output)) return [];
         return explode(PHP_EOL, $output);
     }

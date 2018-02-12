@@ -45,13 +45,16 @@
 
         data(){
             return {
-                network:{
+                network: {
                     name: '',
                     type: 'dhcp',
                     ip_address: '',
                     netmask: '',
                     gateway: '',
                     dns: '',
+                    metric: '',
+                    mode: '',
+                    mac: '',
                 }
             }
         },
