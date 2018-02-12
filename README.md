@@ -14,3 +14,8 @@ sudo chown www-data:www-data /etc/network/interfaces.d
 www-data ALL=(root) NOPASSWD: service/networking/restart
 sudo chown www-data:www-data /sbin/ifconfig
 ```
+
+Give permission to the web app to reboot the system
+```
+www-data ALL=(root) NOPASSWD: /sbin/reboot
+```
