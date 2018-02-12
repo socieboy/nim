@@ -2,8 +2,6 @@
 
 namespace App\Services\Network;
 
-use Illuminate\Support\Facades\Log;
-
 class NetworkInterfacesManager
 {
 
@@ -53,12 +51,10 @@ class NetworkInterfacesManager
         $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
         if (empty($output)) return [];
         $out = explode(PHP_EOL, $output);
-        Log::info($out);
         $array = [];
         foreach ($out as $line) {
             if (!empty($line)) $array[] = $line;
         }
-        Log::info($array);
         return $array;
     }
 }

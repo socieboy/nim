@@ -3,6 +3,7 @@
 namespace App\Services\Network;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class NetworkInterface
 {
@@ -86,7 +87,8 @@ class NetworkInterface
     private function loadInterfaceConfiguration()
     {
         $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : exec('sudo /sbin/ifconfig ' . $this->name);
-
+        Log::info($output);
+        
         $regex = [];
 
         preg_match("/^({$this->name})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
