@@ -1,22 +1,22 @@
 <template>
     <div class="network-manager">
         <ul class="nav nav-tabs" id="Tabs" role="tablist">
-            <li class="nav-item" v-for="(interface, index) in interfaces">
+            <li class="nav-item" v-for="(interface, key, index) in interfaces">
                 <a class="nav-link"
-                   :class="{'active' : index == 1}"
+                   :class="{'active' : index == 0}"
                    :id="interface.name + '-tab'"
                    :href="'#' + interface.name"
                    :aria-controls="interface.name"
                    data-toggle="tab"
                    role="tab"
-                   aria-selected="true" v-text="'Network ' + interface.name">
+                   aria-selected="true" v-text="interface.mode + ' ' + interface.name">
                 </a>
             </li>
         </ul>
         <div class="tab-content" id="TabContent">
             <div class="tab-pane fade"
-                 v-for="(interface, index) in interfaces"
-                 :class="{'show active' : index == 1}"
+                 v-for="(interface, key, index) in interfaces"
+                 :class="{' show active' : index == 0}"
                  :id="interface.name"
                  :aria-labelledby="interface.name + '-tab'"
                  role="tabpanel">

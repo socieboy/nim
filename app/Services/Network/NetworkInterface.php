@@ -2,19 +2,27 @@
 
 namespace App\Services\Network;
 
+use Illuminate\Support\Facades\File;
+
 class NetworkInterface
 {
-    protected $name;
+    public $name;
 
-    protected $type = 'dhcp';
+    public $mode = '';
 
-    protected $ip_address = '';
+    public $type = '';
 
-    protected $mask = '';
+    public $ip_address = '';
 
-    protected $gateway = '';
+    public $netmask = '';
 
-    protected $dns = '';
+    public $gateway = '';
+
+    public $dns = '';
+
+    public $metric = '';
+
+    public $mac;
 
     public function __construct($name)
     {
@@ -22,35 +30,15 @@ class NetworkInterface
         $this->resolveInterface();
     }
 
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function getIpAddress()
-    {
-        return $this->ip_address;
-    }
-
-    public function getMask()
-    {
-        return $this->mask;
-    }
-
-    public function getGateway()
-    {
-        return $this->gateway;
-    }
-
-    public function getDns()
-    {
-        return $this->dns;
-    }
-
+    /**
+     * Assign the information for the interface name provide.
+     */
     private function resolveInterface()
     {
         $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : exec('ifconfig ' . $this->name);
+
         $regex = [];
+
         preg_match("/^({$this->name})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
             "inet addr:([0-9.]+).*Bcast:([0-9.]+).*Mask:([0-9.]+).*" .
             "MTU:([0-9.]+).*Metric:([0-9.]+).*" .
@@ -58,51 +46,43 @@ class NetworkInterface
             "TX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*carrier:([0-9.]+).*" .
             "RX bytes:([0-9.]+).*\((.*)\).*TX bytes:([0-9.]+).*\((.*)\)" .
             "/ims", $output, $regex);
-        $interface = null;
-        if (!empty($regex)) {
-            $interface = array();
-            $interface['name'] = $regex[1];
-            $interface['type'] = $regex[2];
-            $interface['mac'] = $regex[3];
-            $interface['ip'] = $regex[4];
-            $interface['broadcast'] = $regex[5];
-            $interface['netmask'] = $regex[6];
-            $interface['mtu'] = $regex[7];
-            $interface['metric'] = intval($regex[8]);
-            $interface['rx']['packets'] = (int)$regex[9];
-            $interface['rx']['errors'] = (int)$regex[10];
-            $interface['rx']['dropped'] = (int)$regex[11];
-            $interface['rx']['overruns'] = (int)$regex[12];
-            $interface['rx']['frame'] = (int)$regex[13];
-            $interface['rx']['bytes'] = (int)$regex[19];
-            $interface['rx']['hbytes'] = (int)$regex[20];
-            $interface['tx']['packets'] = (int)$regex[14];
-            $interface['tx']['errors'] = (int)$regex[15];
-            $interface['tx']['dropped'] = (int)$regex[16];
-            $interface['tx']['overruns'] = (int)$regex[17];
-            $interface['tx']['carrier'] = (int)$regex[18];
-            $interface['tx']['bytes'] = (int)$regex[21];
-            $interface['tx']['hbytes'] = (int)$regex[22];
-        }
-        $this->ip_address = $interface['ip'];
-        $this->gateway = $interface['broadcast'];
-        $this->mask = $interface['netmask'];
+
+        if (empty($regex)) return;
+
+        $this->mode = $regex[2];
+        $this->mac = $regex[3];
+        $this->ip_address = $regex[4];
+        $this->gateway = $regex[5];
+        $this->netmask = $regex[6];
+        $this->mtu = $regex[7];
+        $this->metric = intval($regex[8]);
+        $this->type = $this->getInterfaceType();
         $this->dns = '';
     }
 
-    public function inArray()
+    /**
+     * Return the type of the interface DHCP or Static.
+     *
+     * @return string
+     */
+    protected function getInterfaceType()
     {
-        return [
-            'name' => $this->name,
-            'type' => $this->type,
-            'ip_address' => $this->ip_address,
-            'mask' => $this->mask,
-            'gateway' => $this->gateway,
-            'dns' => $this->dns,
-        ];
+        $lines = (explode(PHP_EOL, File::get($this->getInterfacesPath())));
+        $result = 'dhcp';
+        foreach ($lines as $line) {
+            if ("iface " . $this->name . " inet static" == $line) {
+                $result = 'static';
+            }
+        }
+        return $result;
     }
 
-    protected function interfaceOutputForDevelopment()
+    /**
+     * Get a example output of the command ifconfig {interfaz_name} to work with in local enviroment.
+     *
+     * @return string
+     */
+    protected function  interfaceOutputForDevelopment()
     {
         return <<<EOF
 eth0      Link encap:Ethernet  HWaddr aa:57:82:94:01:47  
@@ -114,5 +94,15 @@ eth0      Link encap:Ethernet  HWaddr aa:57:82:94:01:47
           collisions:0 txqueuelen:1000 
           RX bytes:12172234716 (12.1 GB)  TX bytes:88545983630 (88.5 GB)
 EOF;
+    }
+
+    /**
+     * Return the path for the interfaces file.
+     *
+     * @return string
+     */
+    protected function getInterfacesPath()
+    {
+        return (is_local_envorioment()) ? base_path('resources/stubs/interfaces') : '/etc/network/interfaces.d/interfaces';
     }
 }

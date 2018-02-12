@@ -2,46 +2,37 @@
 
 namespace App\Services\Network;
 
-use Illuminate\Support\Facades\File;
-
 class NetworkInterfacesManager
 {
 
     public function read()
     {
-        return $this->readInterfaces();
+        return $this->getInterfaces();
     }
 
     public function write()
     {
     }
 
-    protected function readInterfaces()
-    {
-        $interfaces = $this->getInterfaces() ;
-
-        $array = [];
-
-        foreach ($interfaces as $interface) {
-            $array[$interface] = (new NetworkInterface($interface))->inArray();
-        }
-
-        return $array;
-
-//       $path = $this->getInterfacesPath();
-//
-//        $file = File::get($path);
-//
-//        $result = (explode(PHP_EOL, $file));
-
-//
-//        return $result;
-    }
-
     protected function getInterfaces()
     {
-        $data = is_local_envorioment() ? $this->interfacesForDevelopment() : shell_exec('ls -1 /sys/class/net');
-        return explode(PHP_EOL, $data);
+        $data = is_local_envorioment() ? $this->interfacesForDevelopment() : $this->interfacesFromSystem();
+        $interfaces = explode(PHP_EOL, $data);
+        $array = [];
+        foreach ($interfaces as $interface) {
+            $array[$interface] = new NetworkInterface($interface);
+        }
+        return $array;
+    }
+
+    /**
+     * Get the name of all interfaces from the system.
+     *
+     * @return string
+     */
+    protected function interfacesFromSystem()
+    {
+        return shell_exec("ls -1 /sys/class/net | grep '" . $this->networkInterfacesPattern() . "'");
     }
 
     /**
@@ -53,17 +44,16 @@ class NetworkInterfacesManager
     {
         return <<<EOF
 eth0
-lo
 EOF;
     }
 
     /**
-     * Return the path for the interfaces file.
+     * Return how the network interfaces names should be.
      *
      * @return string
      */
-    protected function getInterfacesPath()
+    protected function networkInterfacesPattern()
     {
-        return (is_local_envorioment()) ? base_path('resources/stubs/interfaces') : '/etc/network/interfaces.d/interfaces';
+        return 'eth[0-9]';
     }
 }

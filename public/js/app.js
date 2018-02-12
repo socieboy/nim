@@ -1687,7 +1687,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: '',
                 type: 'dhcp',
                 ip_address: '',
-                mask: '',
+                netmask: '',
                 gateway: '',
                 dns: ''
             }
@@ -36240,144 +36240,144 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm.isStatic
-      ? _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "ip_address" } }, [_vm._v("IP Address")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.network.ip_address,
-                expression: "network.ip_address"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              name: "ip_address",
-              id: "ip_address",
-              required: _vm.isStatic
-            },
-            domProps: { value: _vm.network.ip_address },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.network, "ip_address", $event.target.value)
-              }
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "ip_address" } }, [_vm._v("IP Address")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.network.ip_address,
+            expression: "network.ip_address"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          readonly: !_vm.isStatic,
+          name: "ip_address",
+          id: "ip_address",
+          required: _vm.isStatic
+        },
+        domProps: { value: _vm.network.ip_address },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
             }
-          })
-        ])
-      : _vm._e(),
+            _vm.$set(_vm.network, "ip_address", $event.target.value)
+          }
+        }
+      })
+    ]),
     _vm._v(" "),
-    _vm.isStatic
-      ? _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "mask" } }, [_vm._v("Mask")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.network.mask,
-                expression: "network.mask"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              name: "mask",
-              id: "mask",
-              required: _vm.isStatic
-            },
-            domProps: { value: _vm.network.mask },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.network, "mask", $event.target.value)
-              }
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "netmask" } }, [_vm._v("Netmask")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.network.netmask,
+            expression: "network.netmask"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          readonly: !_vm.isStatic,
+          name: "netmask",
+          id: "netmask",
+          required: _vm.isStatic
+        },
+        domProps: { value: _vm.network.netmask },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
             }
-          })
-        ])
-      : _vm._e(),
+            _vm.$set(_vm.network, "netmask", $event.target.value)
+          }
+        }
+      })
+    ]),
     _vm._v(" "),
-    _vm.isStatic
-      ? _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "gateway" } }, [_vm._v("Gateway")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.network.gateway,
-                expression: "network.gateway"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              name: "gateway",
-              id: "gateway",
-              required: _vm.isStatic
-            },
-            domProps: { value: _vm.network.gateway },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.network, "gateway", $event.target.value)
-              }
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "gateway" } }, [_vm._v("Gateway")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.network.gateway,
+            expression: "network.gateway"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          readonly: !_vm.isStatic,
+          name: "gateway",
+          id: "gateway",
+          required: _vm.isStatic
+        },
+        domProps: { value: _vm.network.gateway },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
             }
-          })
-        ])
-      : _vm._e(),
+            _vm.$set(_vm.network, "gateway", $event.target.value)
+          }
+        }
+      })
+    ]),
     _vm._v(" "),
-    _vm.isStatic
-      ? _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "dns" } }, [_vm._v("DNS")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.network.dns,
-                expression: "network.dns"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: {
-              type: "text",
-              name: "dns",
-              id: "dns",
-              required: _vm.isStatic
-            },
-            domProps: { value: _vm.network.dns },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.network, "dns", $event.target.value)
-              }
+    _c("div", { staticClass: "form-group" }, [
+      _c("label", { attrs: { for: "dns" } }, [_vm._v("DNS")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.network.dns,
+            expression: "network.dns"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: {
+          type: "text",
+          readonly: !_vm.isStatic,
+          name: "dns",
+          id: "dns",
+          required: _vm.isStatic
+        },
+        domProps: { value: _vm.network.dns },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
             }
-          })
-        ])
-      : _vm._e(),
+            _vm.$set(_vm.network, "dns", $event.target.value)
+          }
+        }
+      })
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c(
         "button",
         {
           staticClass: "btn btn-primary",
-          attrs: { type: "button", disabled: _vm.canSave },
+          attrs: {
+            readonly: !_vm.isStatic,
+            type: "button",
+            disabled: _vm.canSave
+          },
           on: {
             click: function($event) {
               _vm.save()
@@ -36412,11 +36412,11 @@ var render = function() {
     _c(
       "ul",
       { staticClass: "nav nav-tabs", attrs: { id: "Tabs", role: "tablist" } },
-      _vm._l(_vm.interfaces, function(interface, index) {
+      _vm._l(_vm.interfaces, function(interface, key, index) {
         return _c("li", { staticClass: "nav-item" }, [
           _c("a", {
             staticClass: "nav-link",
-            class: { active: index == 1 },
+            class: { active: index == 0 },
             attrs: {
               id: interface.name + "-tab",
               href: "#" + interface.name,
@@ -36425,7 +36425,9 @@ var render = function() {
               role: "tab",
               "aria-selected": "true"
             },
-            domProps: { textContent: _vm._s("Network " + interface.name) }
+            domProps: {
+              textContent: _vm._s(interface.mode + " " + interface.name)
+            }
           })
         ])
       })
@@ -36434,12 +36436,12 @@ var render = function() {
     _c(
       "div",
       { staticClass: "tab-content", attrs: { id: "TabContent" } },
-      _vm._l(_vm.interfaces, function(interface, index) {
+      _vm._l(_vm.interfaces, function(interface, key, index) {
         return _c(
           "div",
           {
             staticClass: "tab-pane fade",
-            class: { "show active": index == 1 },
+            class: { " show active": index == 0 },
             attrs: {
               id: interface.name,
               "aria-labelledby": interface.name + "-tab",

@@ -12,8 +12,3 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/', 'HomeController@index')->name('home');
-
-Route::get('test', function(){
-    $interface =  new \App\Services\Network\NetworkInterface('en1');
-    dd($interface->inArray());
-});

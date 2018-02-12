@@ -9,28 +9,28 @@
             </select>
         </div>
 
-        <div class="form-group" v-if="isStatic">
+        <div class="form-group">
             <label for="ip_address">IP Address</label>
-            <input type="text" v-model="network.ip_address" name="ip_address" id="ip_address" class="form-control" :required="isStatic">
-        </div>
-
-        <div class="form-group" v-if="isStatic">
-            <label for="mask">Mask</label>
-            <input type="text" v-model="network.mask" name="mask" id="mask" class="form-control" :required="isStatic">
-        </div>
-
-        <div class="form-group" v-if="isStatic">
-            <label for="gateway">Gateway</label>
-            <input type="text" v-model="network.gateway" name="gateway" id="gateway" class="form-control" :required="isStatic">
-        </div>
-
-        <div class="form-group" v-if="isStatic">
-            <label for="dns">DNS</label>
-            <input type="text" v-model="network.dns" name="dns" id="dns" class="form-control" :required="isStatic">
+            <input type="text" v-model="network.ip_address" :readonly="!isStatic" name="ip_address" id="ip_address" class="form-control" :required="isStatic">
         </div>
 
         <div class="form-group">
-            <button class="btn btn-primary" type="button" :disabled="canSave" @click="save()">
+            <label for="netmask">Netmask</label>
+            <input type="text" v-model="network.netmask" :readonly="!isStatic" name="netmask" id="netmask" class="form-control" :required="isStatic">
+        </div>
+
+        <div class="form-group">
+            <label for="gateway">Gateway</label>
+            <input type="text" v-model="network.gateway" :readonly="!isStatic" name="gateway" id="gateway" class="form-control" :required="isStatic">
+        </div>
+
+        <div class="form-group">
+            <label for="dns">DNS</label>
+            <input type="text" v-model="network.dns" :readonly="!isStatic" name="dns" id="dns" class="form-control" :required="isStatic">
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" :readonly="!isStatic" type="button" :disabled="canSave" @click="save()">
                 Save
             </button>
         </div>
@@ -49,7 +49,7 @@
                     name: '',
                     type: 'dhcp',
                     ip_address: '',
-                    mask: '',
+                    netmask: '',
                     gateway: '',
                     dns: '',
                 }
