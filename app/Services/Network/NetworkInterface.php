@@ -104,7 +104,6 @@ class NetworkInterface
         $this->ip_address = $regex[4];
         $this->gateway = $regex[5];
         $this->netmask = $regex[6];
-        $this->mtu = $regex[7];
         $this->metric = intval($regex[8]);
         $this->type = $this->getInterfaceType();
         $this->dns = '';
