@@ -6,27 +6,12 @@ class NetworkInterfacesManager
 {
 
     /**
-     * Return all network interfaces and information.
-     *
-     * @return array
-     */
-    public function read()
-    {
-        return $this->getInterfaces();
-    }
-
-    public function write($interface, $data)
-    {
-        // Write new interface config and restar network service.
-    }
-
-    /**
      * Create a Network Interface object for each interface
      * and return an array with all interfaces.
      *
      * @return array
      */
-    protected function getInterfaces()
+    public function read()
     {
         $interfaces = is_local_envorioment() ? ['eth0'] : $this->interfacesFromSystem();
         $array = [];
@@ -34,6 +19,11 @@ class NetworkInterfacesManager
             $array[$interface] = new NetworkInterface($interface);
         }
         return $array;
+    }
+
+    public function write($interface, $data)
+    {
+        // Write new interface config and restar network service.
     }
 
     /**
