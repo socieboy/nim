@@ -53,7 +53,11 @@ class NetworkInterfacesManager
         $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
         if (empty($output)) return [];
         $output = explode(PHP_EOL, $output);
-        Log::info($output);
-        return $output;
+        $array = [];
+        foreach ($output as $line) {
+            if (!empty($line)) $array[] = $line;
+        }
+        Log::info($line);
+        return $line;
     }
 }
