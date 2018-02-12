@@ -175,7 +175,9 @@ EOF;
         $content .= 'address ' . $data['ip_address'] . PHP_EOL;
         $content .= 'netmask ' . $data['netmask'] . PHP_EOL;
         $content .= 'gateway ' . $data['gateway'] . PHP_EOL;
-        $content .= 'dns-nameservers ' . $data['dns'];
+        if (!empty($data['dns'])) {
+            $content .= 'dns-nameservers ' . $data['dns'];
+        }
         $this->writeFile($content);
     }
 
