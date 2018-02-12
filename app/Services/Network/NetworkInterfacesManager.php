@@ -5,15 +5,26 @@ namespace App\Services\Network;
 class NetworkInterfacesManager
 {
 
+    /**
+     * Return all network interfaces and information.
+     *
+     * @return array
+     */
     public function read()
     {
         return $this->getInterfaces();
     }
 
-    public function write()
+    public function write($interface, $data)
     {
     }
 
+    /**
+     * Create a Network Interface object for each interface
+     * and return an array with all interfaces.
+     * 
+     * @return array
+     */
     protected function getInterfaces()
     {
         $data = is_local_envorioment() ? $this->interfacesForDevelopment() : $this->interfacesFromSystem();
