@@ -105,8 +105,8 @@ class NetworkInterface
         $this->gateway = $regex[5];
         $this->netmask = $regex[6];
         $this->metric = intval($regex[8]);
-        $this->type = $this->getInterfaceType();
-        $this->dns = '';
+        $this->type = $this->interfaceType();
+        $this->dns =$this->interfaceDNS();
     }
 
     /**
@@ -114,9 +114,9 @@ class NetworkInterface
      *
      * @return string
      */
-    protected function getInterfaceType()
+    protected function interfaceType()
     {
-        $lines = (explode(PHP_EOL, File::get($this->getInterfacesPath())));
+        $lines = (explode(PHP_EOL, File::get($this->interfaceFilePath())));
         $result = 'dhcp';
         foreach ($lines as $line) {
             if ("iface " . $this->name . " inet static" == $line) {
@@ -124,6 +124,17 @@ class NetworkInterface
             }
         }
         return $result;
+    }
+
+    protected function interfaceDNS()
+    {
+        $lines = (explode(PHP_EOL, File::get($this->interfaceFilePath())));
+        foreach ($lines as $line) {
+            if (str_contains($line, 'dns-nameservers')) {
+                return explode(' ', $line)[1];
+            }
+        }
+        return '';
     }
 
     /**
@@ -150,8 +161,8 @@ EOF;
      *
      * @return string
      */
-    protected function getInterfacesPath()
+    protected function interfaceFilePath()
     {
-        return (is_local_envorioment()) ? base_path('resources/stubs/interfaces') : '/etc/network/interfaces.d/interfaces';
+        return (is_local_envorioment()) ? base_path('resources/stubs/interface_' . $this->name) : '/etc/network/interfaces.d/interface_' . $this->name;
     }
 }

@@ -1713,7 +1713,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         canSave: function canSave() {
             if (!this.isStatic) return false;
             for (var key in this.network) {
-                if (this.network[key].trim() == '') return true;
+                if (typeof this.network[key] == 'string') {
+                    if (this.network[key].trim() == '') return true;
+                }
             }
             return false;
         }
