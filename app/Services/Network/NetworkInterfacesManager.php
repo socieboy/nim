@@ -58,7 +58,7 @@ class NetworkInterfacesManager
         foreach ($out as $line) {
             if (!empty($line)) $array[] = $line;
         }
-        Log::info($line);
-        return $line;
+        Log::info($array);
+        return $array;
     }
 }
