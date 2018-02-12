@@ -126,12 +126,18 @@ class NetworkInterface
         return $result;
     }
 
+    /**
+     * Read the dns-nameservers address line from the interface file.
+     *
+     * @return string
+     */
     protected function interfaceDNS()
     {
         $lines = (explode(PHP_EOL, File::get($this->interfaceFilePath())));
         foreach ($lines as $line) {
             if (str_contains($line, 'dns-nameservers')) {
-                return explode(' ', $line)[1];
+                $data = explode(' ', $line);
+                return isset($data[1]) ? $data[1] : '';
             }
         }
         return '';
