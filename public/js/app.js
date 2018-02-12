@@ -49465,6 +49465,7 @@ try {
  * SweetAlert 2
  */
 window.swal = __webpack_require__("./node_modules/sweetalert2/dist/sweetalert2.all.js");
+window.Alert = __webpack_require__("./resources/assets/js/classes/Alert.js");
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -49506,6 +49507,50 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/assets/js/classes/Alert.js":
+/***/ (function(module, exports) {
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+module.exports = function () {
+    function Alert() {
+        _classCallCheck(this, Alert);
+    }
+
+    _createClass(Alert, null, [{
+        key: 'error',
+        value: function error(message) {
+            swal('', message, 'error');
+        }
+    }, {
+        key: 'success',
+        value: function success(message) {
+            swal('', message, 'success');
+        }
+    }, {
+        key: 'info',
+        value: function info(message) {
+            swal('', message, 'info');
+        }
+    }, {
+        key: 'question',
+        value: function question(message) {
+            swal('', message, 'question');
+        }
+    }, {
+        key: 'warning',
+        value: function warning(message) {
+            swal('', message, 'warning');
+        }
+    }]);
+
+    return Alert;
+}();
 
 /***/ }),
 

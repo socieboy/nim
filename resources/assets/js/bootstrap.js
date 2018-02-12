@@ -18,6 +18,7 @@ try {
  * SweetAlert 2
  */
 window.swal = require('sweetalert2');
+window.Alert = require('./classes/Alert');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
