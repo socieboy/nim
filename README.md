@@ -8,14 +8,14 @@ The idea of this application is creating a web based application to read and wri
 + VueJS
 + SASS
 
-Execute the following command to give permissions to www-data user.
+Execute the following command to give permissions to www-data user to execute the commands
 ```
 sudo chown www-data:www-data /etc/network/interfaces.d
-www-data ALL=(root) NOPASSWD: service/networking/restart
 sudo chown www-data:www-data /sbin/ifconfig
 ```
 
-Give permission to the web app to reboot the system
+Add the following lines to the /etc/sudoers file. (use visudo)
 ```
-www-data ALL=(root) NOPASSWD: /sbin/reboot
+www-data ALL=(root) NOPASSWD: /sbin/ifconfig
+www-data ALL=(root) NOPASSWD: /usr/sbin/service networking restart
 ```

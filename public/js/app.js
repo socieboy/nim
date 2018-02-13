@@ -1689,7 +1689,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 ip_address: '',
                 netmask: '',
                 gateway: '',
-                dns: ''
+                dns: '',
+                metric: '',
+                mode: '',
+                mac: ''
             }
         };
     },
@@ -1713,8 +1716,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         canSave: function canSave() {
             if (!this.isStatic) return false;
             for (var key in this.network) {
-                if (typeof this.network[key] == 'string') {
-                    if (this.network[key].trim() == '') return true;
+                if (key != 'dns') {
+                    if (typeof this.network[key] == 'string') {
+                        if (this.network[key].trim() == '') return true;
+                    }
                 }
             }
             return false;
@@ -33189,7 +33194,7 @@ return jQuery;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(global) {/**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.12.9
+ * @version 1.13.0
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
