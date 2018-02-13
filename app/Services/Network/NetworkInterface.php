@@ -3,7 +3,6 @@
 namespace App\Services\Network;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 
 class NetworkInterface
 {
@@ -87,7 +86,6 @@ class NetworkInterface
     private function loadInterfaceConfiguration()
     {
         $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec('sudo /sbin/ifconfig ' . $this->name);
-        Log::info($output);
 
         $regex = [];
 
@@ -166,7 +164,8 @@ EOF;
 
     public function update($data)
     {
-        $content = 'auto ' . $this->name . PHP_EOL;
+        $content = '# Network Interface "' . $this->name . '" Configuration File' . PHP_EOL . PHP_EOL;
+        $content .= 'auto ' . $this->name . PHP_EOL;
         $content .= 'iface ' . $this->name . ' inet ';
 
         if ($data['type'] == 'dhcp') {

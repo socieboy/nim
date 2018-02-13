@@ -1,3 +1,5 @@
+# Network Interface "eth0" Configuration File
+
 auto eth0
 iface eth0 inet static
 address 165.227.63.109

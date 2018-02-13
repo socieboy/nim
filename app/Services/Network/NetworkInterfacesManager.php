@@ -34,7 +34,6 @@ class NetworkInterfacesManager
             $interface = new NetworkInterface($interface);
             $interface->update($data);
             shell_exec('sudo service networking restart');
-            return true;
         } catch (\Exception $exception) {
             return false;
         }
@@ -50,9 +49,9 @@ class NetworkInterfacesManager
         $pattern = config('nim.interfaces.pattern');
         $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
         if (empty($output)) return [];
-        $out = explode(PHP_EOL, $output);
+        $output = explode(PHP_EOL, $output);
         $array = [];
-        foreach ($out as $line) {
+        foreach ($output as $line) {
             if (!empty($line)) $array[] = $line;
         }
         return $array;
