@@ -1708,7 +1708,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.submitted = true;
             axios.post('/api/network-interface/' + this.interface.name, this.network).then(function (response) {
-                Alert.success('System rebooting, please wait!');
+                Alert.success('Your network has been updated!');
                 _this.submitted = false;
             }).catch(function (error) {
                 _this.submitted = false;

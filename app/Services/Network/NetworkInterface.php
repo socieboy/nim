@@ -200,7 +200,6 @@ EOF;
         $content .= 'gateway ' . $data['gateway'] . PHP_EOL;
         $content .= 'dns-nameservers ' . $data['dns'];
         $this->writeFile($content);
-//        $this->writeResolvConfigFile($data['dns']);
     }
 
     /**
@@ -212,17 +211,6 @@ EOF;
     protected function writeFile($content)
     {
         File::put($this->interfaceFilePath(), $content);
-    }
-
-    /**
-     * Update the resolv.conf file.
-     *
-     * @param $dns
-     */
-    protected function writeResolvConfigFile($dns)
-    {
-        $path = (is_local_envorioment()) ? base_path('resources/stubs/resolv.conf') : '/etc/resolv.conf';
-        File::put($path, 'nameserver ' . $dns);
     }
 
     /**

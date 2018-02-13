@@ -68,7 +68,7 @@
             save(){
                 this.submitted = true;
                 axios.post('/api/network-interface/' + this.interface.name, this.network).then(response => {
-                    Alert.success('System rebooting, please wait!');
+                    Alert.success('Your network has been updated!');
                     this.submitted = false;
                 }).catch(error => {
                     this.submitted = false;
