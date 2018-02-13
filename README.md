@@ -1,13 +1,10 @@
 # Network Interface Manager
-#### Laravel Network Interfaces Manager Application for Linux
+### Laravel Network Interfaces Manager Application for Ubuntu Linux
 
+#### Description
 The idea of this application is creating a web based application to read and write the network interfaces in Linux systems.
 
-+ Linux
-+ Laravel
-+ VueJS
-+ SASS
-
+#### Installation
 Copy the .env.example to .env and set the interface pattern value of your interface name device.
 
 Example:
