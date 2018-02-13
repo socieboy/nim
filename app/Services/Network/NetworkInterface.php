@@ -167,6 +167,12 @@ class NetworkInterface
 EOF;
     }
 
+    /**
+     * Update a file on the /etc/network/interfaces.d/interface{$this->name}
+     * with the configuration for the interface.
+     *
+     * @param $data
+     */
     public function update($data)
     {
         $content = '# Network Interface "' . $this->name . '" Configuration File' . PHP_EOL . PHP_EOL;

@@ -1,4 +1,4 @@
-# Network Interface Manager
+# Network Interfaces Manager
 ### Laravel Network Interfaces Manager Application for Ubuntu Linux
 
 #### Description
