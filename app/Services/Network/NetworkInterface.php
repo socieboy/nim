@@ -107,11 +107,20 @@ class NetworkInterface
         $this->mode = $regex[2];
         $this->mac = $regex[3];
         $this->ip_address = $regex[4];
-        $this->gateway = $regex[5];
+        $this->gateway = $this->interfaceGateway();
         $this->netmask = $regex[6];
         $this->metric = intval($regex[8]);
         $this->type = $this->interfaceType();
         $this->dns =$this->interfaceDNS();
+    }
+
+    protected function interfaceGateway()
+    {
+        $output = is_local_envorioment() ? 'IP4.GATEWAY:                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->name . ' | grep IP4.GATEWAY');
+        Log::info($output);
+        $output = explode(':', $output);
+        if (isset($output[1])) return trim($output[1]);
+        return '';
     }
 
     /**
@@ -168,7 +177,7 @@ EOF;
     }
 
     /**
-     * Update a file on the /etc/network/interfaces.d/interface{$this->name}
+     * Update a file on the /etc/network/interfaces.d/interface_{$this->name}
      * with the configuration for the interface.
      *
      * @param $data
