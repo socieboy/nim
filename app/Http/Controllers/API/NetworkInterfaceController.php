@@ -30,7 +30,7 @@ class NetworkInterfaceController extends Controller
             'ip_address' => 'required_if:type,static',
             'netmask' => 'required_if:type,static',
             'gateway' => 'required_if:type,static',
-            'dns' => 'sometimes',
+            'dns' => 'required_if:type,static',
         ]);
         $status = NetworkInterfacesManager::write($interface, $data);
         return response([

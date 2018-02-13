@@ -12,6 +12,7 @@ Execute the following command to give permissions to www-data user to execute th
 ```
 sudo chown www-data:www-data /etc/network/interfaces.d
 sudo chown www-data:www-data /sbin/ifconfig
+sudo chown www-data:www-data /etc/resolv.conf
 ```
 
 Add the following lines to the /etc/sudoers file. (use visudo)
