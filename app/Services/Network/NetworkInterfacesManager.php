@@ -13,7 +13,7 @@ class NetworkInterfacesManager
      */
     public function read()
     {
-        $interfaces = is_local_envorioment() ? ['eth0'] : $this->interfacesFromSystem();
+        $interfaces = is_local_envorioment() ? ['eth0', 'eth1'] : $this->interfacesFromSystem();
         $array = [];
         foreach ($interfaces as $interface) {
             $array[$interface] = new NetworkInterface($interface);

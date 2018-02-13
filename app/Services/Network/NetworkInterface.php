@@ -88,8 +88,6 @@ class NetworkInterface
     {
         $command = 'sudo /sbin/ifconfig ' . $this->name;
 
-        Log::info("Command: " . $command);
-
         $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec($command);
 
         Log::info($output);
@@ -158,14 +156,14 @@ class NetworkInterface
     protected function  interfaceOutputForDevelopment()
     {
         return <<<EOF
-eth0      Link encap:Ethernet  HWaddr aa:57:82:94:01:47  
+{$this->name}      Link encap:Ethernet  HWaddr aa:57:82:94:01:47  
           inet addr:165.227.63.109  Bcast:165.227.63.255  Mask:255.255.240.0
           inet6 addr: fe80::a857:82ff:fe94:147/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:31129519 errors:0 dropped:0 overruns:0 frame:0
           TX packets:29833946 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1000 
-          RX bytes:12172234716 (12.1 GB)  TX bytes:88545983630 (88.5 GB)
+          RX bytes:12172234716 (12.1 GB)  TX bytes:88545983630 (88.5 GB) 
 EOF;
     }
 

@@ -1,0 +1,8 @@
+# Network Interface "eth1" Configuration File
+
+auto eth1
+iface eth1 inet static
+address 165.227.63.109
+netmask 255.255.240.0
+gateway 165.227.63.255
+dns-nameservers 9.9.9.9
