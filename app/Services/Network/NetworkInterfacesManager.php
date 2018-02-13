@@ -2,6 +2,8 @@
 
 namespace App\Services\Network;
 
+use Illuminate\Support\Facades\Log;
+
 class NetworkInterfacesManager
 {
 
@@ -35,6 +37,7 @@ class NetworkInterfacesManager
             $interface->update($data);
             shell_exec('sudo service networking restart');
         } catch (\Exception $exception) {
+            Log::info($exception);
             return false;
         }
     }
