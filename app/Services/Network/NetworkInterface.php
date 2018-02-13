@@ -200,7 +200,7 @@ EOF;
         $content .= 'gateway ' . $data['gateway'] . PHP_EOL;
         $content .= 'dns-nameservers ' . $data['dns'];
         $this->writeFile($content);
-        $this->writeResolvConfigFile($data['dns']);
+//        $this->writeResolvConfigFile($data['dns']);
     }
 
     /**
