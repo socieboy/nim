@@ -30,8 +30,8 @@
         </div>
 
         <div class="form-group">
-            <button class="btn btn-primary" :readonly="!isStatic" type="button" :disabled="canSave" @click="save()">
-                Save
+            <button class="btn btn-primary" type="button" :disabled="canSave || submitted" @click="save()">
+                <i class="fa fa-spin fa-spinner" v-if="submitted"></i> <span v-text="submitted ? 'Saving...' : 'Save'"></span>
             </button>
         </div>
 
@@ -45,6 +45,7 @@
 
         data(){
             return {
+                submitted: false,
                 network: {
                     name: '',
                     type: 'dhcp',
@@ -65,8 +66,13 @@
 
         methods:{
             save(){
+                this.submitted = true;
                 axios.post('/api/network-interface/' + this.interface.name, this.network).then(response => {
                     Alert.success('System rebooting, please wait!');
+                    this.submitted = false;
+                }).catch(error => {
+                    this.submitted = false;
+                    console.log(error.response.data);
                 });
             }
         },

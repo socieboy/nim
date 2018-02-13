@@ -1683,6 +1683,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
+            submitted: false,
             network: {
                 name: '',
                 type: 'dhcp',
@@ -1703,8 +1704,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         save: function save() {
+            var _this = this;
+
+            this.submitted = true;
             axios.post('/api/network-interface/' + this.interface.name, this.network).then(function (response) {
                 Alert.success('System rebooting, please wait!');
+                _this.submitted = false;
+            }).catch(function (error) {
+                _this.submitted = false;
+                console.log(error.response.data);
             });
         }
     },
@@ -1716,10 +1724,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         canSave: function canSave() {
             if (!this.isStatic) return false;
             for (var key in this.network) {
-                if (key != 'dns') {
-                    if (typeof this.network[key] == 'string') {
-                        if (this.network[key].trim() == '') return true;
-                    }
+                if (typeof this.network[key] == 'string') {
+                    if (this.network[key].trim() == '') return true;
                 }
             }
             return false;
@@ -33194,7 +33200,7 @@ return jQuery;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function(global) {/**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.13.0
+ * @version 1.12.9
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -38449,18 +38455,24 @@ var render = function() {
         "button",
         {
           staticClass: "btn btn-primary",
-          attrs: {
-            readonly: !_vm.isStatic,
-            type: "button",
-            disabled: _vm.canSave
-          },
+          attrs: { type: "button", disabled: _vm.canSave || _vm.submitted },
           on: {
             click: function($event) {
               _vm.save()
             }
           }
         },
-        [_vm._v("\n            Save\n        ")]
+        [
+          _vm.submitted
+            ? _c("i", { staticClass: "fa fa-spin fa-spinner" })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("span", {
+            domProps: {
+              textContent: _vm._s(_vm.submitted ? "Saving..." : "Save")
+            }
+          })
+        ]
       )
     ])
   ])
