@@ -19,6 +19,20 @@ Install Network Manager for ubuntu
 sudo apt-get install network-manager
 ```
 
+By default, NetworkManager does not manage interfaces that appear in /etc/network/interfaces.d/*, we need to change this in order to make it work by editing the file:
+```
+sudo nano /etc/NetworkManager/NetworkManager.conf
+```
+
+And change the line managed to true
+```
+managed=true
+```
+Restart Network Manager:
+```
+sudo service network-manager restart
+```
+
 Execute the following commands to give permissions to www-data user.
 ```
 sudo chown www-data:www-data /etc/network/interfaces.d
