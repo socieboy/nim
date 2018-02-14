@@ -83,8 +83,12 @@
                 return this.network.type == 'static';
             },
 
+            isDhcp(){
+                return !this.Static;
+            },
+
             canSave(){
-                if (!this.isStatic) return false;
+                if (this.isDhcp) return false;
                 for (var key in this.network) {
                     if (typeof this.network[key] == 'string') {
                         if (this.network[key].trim() == '') return true;
