@@ -38316,7 +38316,7 @@ var render = function() {
           }
         }
       },
-      [_vm._v("Ping")]
+      [_vm._v("Test Connection")]
     )
   ])
 }

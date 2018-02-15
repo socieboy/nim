@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button type="button" @click="ping()">Ping</button>
+        <button type="button" @click="ping()">Test Connection</button>
     </div>
 </template>
 <script>

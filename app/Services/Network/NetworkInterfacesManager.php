@@ -63,6 +63,8 @@ class NetworkInterfacesManager
 
     public function ping($interface, $endpoint)
     {
-        return shell_exec('ping -I ' . $interface . ' ' . $endpoint);
+        exec('ping -I ' . $interface . ' -w 10 -c 1 ' . $endpoint, $result);
+        $result = implode(' ', $result);
+        return (str_contains($result, ' bytes from ') && str_contains($result, '0% packet loss')) ? true : false;
     }
 }

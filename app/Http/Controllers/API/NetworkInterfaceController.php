@@ -33,6 +33,7 @@ class NetworkInterfaceController extends Controller
 
     public function show($interface)
     {
-        return NetworkInterfacesManager::ping($interface, 'google.com');
+        $status = NetworkInterfacesManager::ping($interface, 'google.com');
+        return response(['status' => $status]);
     }
 }
