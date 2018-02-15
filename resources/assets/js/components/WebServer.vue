@@ -1,9 +1,15 @@
 <template>
     <div class="form-group">
 
+
+        <div class="form-group">
+            <label for="name">Computer Name</label>
+            <input type="text" v-model="name" name="name" id="name" class="form-control">
+        </div>
+
         <div class="form-group">
             <label for="port">Port</label>
-            <input type="number" v-model.number="port" name="port" id="port" class="form-control col-md-6">
+            <input type="number" v-model.number="port" name="port" id="port" class="form-control">
         </div>
 
         <button class="btn btn-primary pull-right" type="button" :disabled="!canSave || submitted" @click="save()">
