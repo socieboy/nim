@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IpAddress;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NetworkInterfaceRequest extends FormRequest
@@ -25,7 +26,7 @@ class NetworkInterfaceRequest extends FormRequest
     {
         return [
             'type' => 'required|in:dhcp,static',
-            'ip_address' => 'required_if:type,static',
+            'ip_address' => ['required_if:type,static', new IpAddress],
             'netmask' => 'required_if:type,static',
             'gateway' => 'required_if:type,static',
             'dns' => 'required_if:type,static',

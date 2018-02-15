@@ -70,9 +70,9 @@
                 axios.post('/api/network-interface/' + this.interface.name, this.network).then(response => {
                     Alert.success('Your network has been updated!');
                     this.submitted = false;
-                }).catch(error => {
+                }).catch(({response}) => {
                     this.submitted = false;
-                    console.log(error.response.data);
+                    Alert.error(response.data.message);
                 });
             }
         },

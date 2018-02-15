@@ -1710,9 +1710,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/api/network-interface/' + this.interface.name, this.network).then(function (response) {
                 Alert.success('Your network has been updated!');
                 _this.submitted = false;
-            }).catch(function (error) {
+            }).catch(function (_ref) {
+                var response = _ref.response;
+
                 _this.submitted = false;
-                console.log(error.response.data);
+                Alert.error(response.data.message);
             });
         }
     },
