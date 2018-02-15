@@ -30,4 +30,9 @@ class NetworkInterfaceController extends Controller
         $status = NetworkInterfacesManager::write($interface, $request->all());
         return response(['status' => $status]);
     }
+
+    public function show($interface)
+    {
+        return NetworkInterfacesManager::ping($interface, 'google.com');
+    }
 }

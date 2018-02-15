@@ -9,7 +9,8 @@
                    :aria-controls="interface.name"
                    data-toggle="tab"
                    role="tab"
-                   aria-selected="true" v-text="interface.mode + ' ' + interface.name">
+                   aria-selected="true">
+                   {{ interface.mode + ' ' + interface.name }}
                 </a>
             </li>
         </ul>
@@ -36,9 +37,9 @@
         },
 
         created(){
-          axios.get('/api/network-interfaces').then(response => {
-              this.interfaces = response.data;
-          })
+            axios.get('/api/network-interfaces').then(response => {
+                this.interfaces = response.data;
+            });
         },
 
     }

@@ -60,4 +60,9 @@ class NetworkInterfacesManager
         }
         return $array;
     }
+
+    public function ping($interface, $endpoint)
+    {
+        return shell_exec('ping -I ' . $interface . ' ' . $endpoint);
+    }
 }

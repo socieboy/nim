@@ -35,6 +35,8 @@
             </button>
         </div>
 
+        <ping :from="network"></ping>
+
     </form>
 </template>
 
@@ -46,22 +48,8 @@
         data(){
             return {
                 submitted: false,
-                network: {
-                    name: '',
-                    type: 'dhcp',
-                    ip_address: '',
-                    netmask: '',
-                    gateway: '',
-                    dns: '',
-                    metric: '',
-                    mode: '',
-                    mac: '',
-                }
+                network: this.interface,
             }
-        },
-
-        created(){
-          this.network = this.interface;
         },
 
         methods:{

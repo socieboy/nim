@@ -1676,6 +1676,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -1684,21 +1686,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             submitted: false,
-            network: {
-                name: '',
-                type: 'dhcp',
-                ip_address: '',
-                netmask: '',
-                gateway: '',
-                dns: '',
-                metric: '',
-                mode: '',
-                mac: ''
-            }
+            network: this.interface
         };
-    },
-    created: function created() {
-        this.network = this.interface;
     },
 
 
@@ -1773,6 +1762,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -1787,6 +1777,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.interfaces = response.data;
         });
     }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Ping.vue":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['from'],
+
+    methods: {
+        ping: function ping() {
+            axios.post('/api/network-interfaces/' + this.from.name + '/ping').then(function (response) {
+                console.log(response.data);
+            }).catch(function (_ref) {
+                var response = _ref.response;
+
+                console.log(response.data);
+            });
+        }
+    }
+
 });
 
 /***/ }),
@@ -38277,6 +38298,40 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-601dcdae\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Ping.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "button",
+      {
+        attrs: { type: "button" },
+        on: {
+          click: function($event) {
+            _vm.ping()
+          }
+        }
+      },
+      [_vm._v("Ping")]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-601dcdae", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-67d3e892\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Interface.vue":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -38284,203 +38339,210 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("form", { staticClass: "network-manager" }, [
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "type" } }, [_vm._v("Type")]),
+  return _c(
+    "form",
+    { staticClass: "network-manager" },
+    [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "type" } }, [_vm._v("Type")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.network.type,
+                expression: "network.type"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { name: "type", id: "type" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.network,
+                  "type",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          [
+            _c("option", { attrs: { value: "dhcp" } }, [_vm._v("DCHP")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "static" } }, [_vm._v("Static")])
+          ]
+        )
+      ]),
       _vm._v(" "),
-      _c(
-        "select",
-        {
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "ip_address" } }, [_vm._v("IP Address")]),
+        _vm._v(" "),
+        _c("input", {
           directives: [
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.network.type,
-              expression: "network.type"
+              value: _vm.network.ip_address,
+              expression: "network.ip_address"
             }
           ],
           staticClass: "form-control",
-          attrs: { name: "type", id: "type" },
+          attrs: {
+            type: "text",
+            readonly: !_vm.isStatic,
+            name: "ip_address",
+            id: "ip_address",
+            required: _vm.isStatic
+          },
+          domProps: { value: _vm.network.ip_address },
           on: {
-            change: function($event) {
-              var $$selectedVal = Array.prototype.filter
-                .call($event.target.options, function(o) {
-                  return o.selected
-                })
-                .map(function(o) {
-                  var val = "_value" in o ? o._value : o.value
-                  return val
-                })
-              _vm.$set(
-                _vm.network,
-                "type",
-                $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-              )
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.network, "ip_address", $event.target.value)
             }
           }
-        },
-        [
-          _c("option", { attrs: { value: "dhcp" } }, [_vm._v("DCHP")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "static" } }, [_vm._v("Static")])
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "ip_address" } }, [_vm._v("IP Address")]),
+        })
+      ]),
       _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.network.ip_address,
-            expression: "network.ip_address"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          readonly: !_vm.isStatic,
-          name: "ip_address",
-          id: "ip_address",
-          required: _vm.isStatic
-        },
-        domProps: { value: _vm.network.ip_address },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "netmask" } }, [_vm._v("Netmask")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.network.netmask,
+              expression: "network.netmask"
             }
-            _vm.$set(_vm.network, "ip_address", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "netmask" } }, [_vm._v("Netmask")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.network.netmask,
-            expression: "network.netmask"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          readonly: !_vm.isStatic,
-          name: "netmask",
-          id: "netmask",
-          required: _vm.isStatic
-        },
-        domProps: { value: _vm.network.netmask },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.network, "netmask", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "gateway" } }, [_vm._v("Gateway")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.network.gateway,
-            expression: "network.gateway"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          readonly: !_vm.isStatic,
-          name: "gateway",
-          id: "gateway",
-          required: _vm.isStatic
-        },
-        domProps: { value: _vm.network.gateway },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.network, "gateway", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "dns" } }, [_vm._v("DNS")]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.network.dns,
-            expression: "network.dns"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          readonly: !_vm.isStatic,
-          name: "dns",
-          id: "dns",
-          required: _vm.isStatic
-        },
-        domProps: { value: _vm.network.dns },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.$set(_vm.network, "dns", $event.target.value)
-          }
-        }
-      })
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { type: "button", disabled: _vm.canSave || _vm.submitted },
+          ],
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            readonly: !_vm.isStatic,
+            name: "netmask",
+            id: "netmask",
+            required: _vm.isStatic
+          },
+          domProps: { value: _vm.network.netmask },
           on: {
-            click: function($event) {
-              _vm.save()
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.network, "netmask", $event.target.value)
             }
           }
-        },
-        [
-          _vm.submitted
-            ? _c("i", { staticClass: "fa fa-spin fa-spinner" })
-            : _vm._e(),
-          _vm._v(" "),
-          _c("span", {
-            domProps: {
-              textContent: _vm._s(_vm.submitted ? "Saving..." : "Save")
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "gateway" } }, [_vm._v("Gateway")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.network.gateway,
+              expression: "network.gateway"
             }
-          })
-        ]
-      )
-    ])
-  ])
+          ],
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            readonly: !_vm.isStatic,
+            name: "gateway",
+            id: "gateway",
+            required: _vm.isStatic
+          },
+          domProps: { value: _vm.network.gateway },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.network, "gateway", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "dns" } }, [_vm._v("DNS")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.network.dns,
+              expression: "network.dns"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            readonly: !_vm.isStatic,
+            name: "dns",
+            id: "dns",
+            required: _vm.isStatic
+          },
+          domProps: { value: _vm.network.dns },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.network, "dns", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary",
+            attrs: { type: "button", disabled: _vm.canSave || _vm.submitted },
+            on: {
+              click: function($event) {
+                _vm.save()
+              }
+            }
+          },
+          [
+            _vm.submitted
+              ? _c("i", { staticClass: "fa fa-spin fa-spinner" })
+              : _vm._e(),
+            _vm._v(" "),
+            _c("span", {
+              domProps: {
+                textContent: _vm._s(_vm.submitted ? "Saving..." : "Save")
+              }
+            })
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("ping", { attrs: { from: _vm.network } })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38507,21 +38569,28 @@ var render = function() {
       { staticClass: "nav nav-tabs", attrs: { id: "Tabs", role: "tablist" } },
       _vm._l(_vm.interfaces, function(interface, key, index) {
         return _c("li", { staticClass: "nav-item" }, [
-          _c("a", {
-            staticClass: "nav-link",
-            class: { active: index == 0 },
-            attrs: {
-              id: interface.name + "-tab",
-              href: "#" + interface.name,
-              "aria-controls": interface.name,
-              "data-toggle": "tab",
-              role: "tab",
-              "aria-selected": "true"
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              class: { active: index == 0 },
+              attrs: {
+                id: interface.name + "-tab",
+                href: "#" + interface.name,
+                "aria-controls": interface.name,
+                "data-toggle": "tab",
+                role: "tab",
+                "aria-selected": "true"
+              }
             },
-            domProps: {
-              textContent: _vm._s(interface.mode + " " + interface.name)
-            }
-          })
+            [
+              _vm._v(
+                "\n               " +
+                  _vm._s(interface.mode + " " + interface.name) +
+                  "\n            "
+              )
+            ]
+          )
         ])
       })
     ),
@@ -49455,6 +49524,7 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('ping', __webpack_require__("./resources/assets/js/components/Ping.vue"));
 Vue.component('network-manager', __webpack_require__("./resources/assets/js/components/NetworkManager.vue"));
 Vue.component('network-interface', __webpack_require__("./resources/assets/js/components/Interface.vue"));
 
@@ -49661,6 +49731,54 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-cc3407d4", Component.options)
   } else {
     hotAPI.reload("data-v-cc3407d4", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/Ping.vue":
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")
+/* script */
+var __vue_script__ = __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/Ping.vue")
+/* template */
+var __vue_template__ = __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-601dcdae\",\"hasScoped\":false,\"buble\":{\"transforms\":{}}}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/Ping.vue")
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Ping.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-601dcdae", Component.options)
+  } else {
+    hotAPI.reload("data-v-601dcdae", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
