@@ -29,11 +29,11 @@
             <input type="text" v-model="network.dns" :readonly="!isStatic" name="dns" id="dns" class="form-control" :required="isStatic">
         </div>
 
-        <div class="form-group">
-            <button class="btn btn-primary" type="button" :disabled="canSave || submitted" @click="save()">
-                <i class="fa fa-spin fa-spinner" v-if="submitted"></i> <span v-text="submitted ? 'Saving...' : 'Save'"></span>
-            </button>
-        </div>
+        <button class="btn btn-primary pull-right" type="button" :disabled="canSave || submitted" @click="save()">
+            <i class="fa fa-spin fa-spinner" v-if="submitted"></i> <span v-text="submitted ? 'Saving...' : 'Save'"></span>
+        </button>
+
+        <ping :from="network"></ping>
 
     </form>
 </template>
@@ -46,22 +46,8 @@
         data(){
             return {
                 submitted: false,
-                network: {
-                    name: '',
-                    type: 'dhcp',
-                    ip_address: '',
-                    netmask: '',
-                    gateway: '',
-                    dns: '',
-                    metric: '',
-                    mode: '',
-                    mac: '',
-                }
+                network: this.interface,
             }
-        },
-
-        created(){
-          this.network = this.interface;
         },
 
         methods:{
@@ -70,9 +56,9 @@
                 axios.post('/api/network-interface/' + this.interface.name, this.network).then(response => {
                     Alert.success('Your network has been updated!');
                     this.submitted = false;
-                }).catch(error => {
+                }).catch(({response}) => {
                     this.submitted = false;
-                    console.log(error.response.data);
+                    Alert.error(response.data.message);
                 });
             }
         },
