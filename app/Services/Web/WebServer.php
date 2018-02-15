@@ -10,11 +10,11 @@ class WebServer
     public function update($port)
     {
         $content = explode(PHP_EOL, File::get($this->configurationFile()));
-        foreach($content as $line){
-            if((preg_match("/listen/i \d+/default_server/$", $line))){
-                return true;
-            }
+        foreach($content as $key => $line) {
+            $content[$key] = preg_replace('/\d{1,4}/', $port, $line);
         }
+        File::append($this->configurationFile(), $content);
+        return $content;
     }
 
     /**
