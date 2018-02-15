@@ -15,9 +15,7 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('ping', require('./components/Ping.vue'));
-Vue.component('network-manager', require('./components/NetworkManager.vue'));
-Vue.component('network-interface', require('./components/Interface.vue'));
+require('./components')
 
 const app = new Vue({
     el: '#TSS'
