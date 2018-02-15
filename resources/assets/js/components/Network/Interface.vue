@@ -29,7 +29,7 @@
             <input type="text" v-model="network.dns" :readonly="!isStatic" name="dns" id="dns" class="form-control" :required="isStatic">
         </div>
 
-        <button class="btn btn-primary pull-right" type="button" :disabled="canSave || submitted" @click="save()">
+        <button class="btn btn-primary pull-right" type="button" :disabled="!canSave || submitted" @click="save()">
             <i class="fa fa-spin fa-spinner" v-if="submitted"></i> <span v-text="submitted ? 'Saving...' : 'Save'"></span>
         </button>
 
@@ -70,17 +70,17 @@
             },
 
             isDhcp(){
-                return !this.Static;
+                return !this.isStatic;
             },
 
             canSave(){
-                if (this.isDhcp) return false;
+                if (this.isDhcp) return true;
                 for (var key in this.network) {
                     if (typeof this.network[key] == 'string') {
-                        if (this.network[key].trim() == '') return true;
+                        if (this.network[key].trim() == '') return false;
                     }
                 }
-                return false;
+                return true;
             }
         }
     }

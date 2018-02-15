@@ -4,6 +4,13 @@
 #### Description
 The idea of this application is creating a web based application to read and write the network interfaces in Linux systems.
 
+#### System Requirements
+
+- Ubuntu 16.06
+- PHP 7.1.3
+- MySQL
+- Nginx
+
 #### Installation
 Copy the .env.example to .env and set the interface pattern value of your interface name device.
 

@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
 
         <div class="col-md-4">
-            <div class="card card-default">
+            <div class="card card-default mb-3">
                 <div class="card-header">Web Server</div>
                 <div class="card-body">
                     <webserver></webserver>
