@@ -46,5 +46,14 @@ www-data ALL=(root) NOPASSWD: /bin/ip
 www-data ALL=(root) NOPASSWD: /usr/sbin/service networking restart
 ```
 
-Screenshot:
+#### Self Update
+Update the system automatically by installing envoyer
+```
+composer global require laravel/envoy
+```
+Uncomment the schedule task command
+```
+$schedule->command('envoy run deploy --branch=' . env('GIT_BRANCH'))->weekly();
+```
+#### Screenshot
 ![alt text](https://raw.githubusercontent.com/socieboy/nim/master/public/images/screenshot.png)

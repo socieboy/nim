@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('envoy run deploy --branch=' . env('GIT_BRANCH'))->weekly();
+//        $schedule->command('envoy run deploy --branch=' . env('GIT_BRANCH'))->weekly();
     }
 
     /**
