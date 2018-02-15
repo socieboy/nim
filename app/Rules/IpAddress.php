@@ -3,11 +3,9 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Validation\Concerns\ValidatesAttributes;
 
 class IpAddress implements Rule
 {
-    use ValidatesAttributes;
 
     /**
      * Create a new rule instance.
@@ -29,7 +27,7 @@ class IpAddress implements Rule
     public function passes($attribute, $value)
     {
         if (request('type') == 'static') {
-            return $this->validateUrl($attribute, $value);
+            return preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $value);
         }
         return true;
     }

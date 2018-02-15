@@ -27,9 +27,9 @@ class NetworkInterfaceRequest extends FormRequest
         return [
             'type' => 'required|in:dhcp,static',
             'ip_address' => ['required_if:type,static', new IpAddress],
-            'netmask' => 'required_if:type,static',
-            'gateway' => 'required_if:type,static',
-            'dns' => 'required_if:type,static',
+            'netmask' => ['required_if:type,static', new IpAddress],
+            'gateway' => ['required_if:type,static', new IpAddress],
+            'dns' => ['required_if:type,static', new IpAddress],
         ];
     }
 }

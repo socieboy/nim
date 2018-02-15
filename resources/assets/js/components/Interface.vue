@@ -29,11 +29,11 @@
             <input type="text" v-model="network.dns" :readonly="!isStatic" name="dns" id="dns" class="form-control" :required="isStatic">
         </div>
 
-        <ping :from="network"></ping>
-
-        <button class="btn btn-primary" type="button" :disabled="canSave || submitted" @click="save()">
+        <button class="btn btn-primary pull-right" type="button" :disabled="canSave || submitted" @click="save()">
             <i class="fa fa-spin fa-spinner" v-if="submitted"></i> <span v-text="submitted ? 'Saving...' : 'Save'"></span>
         </button>
+
+        <ping :from="network"></ping>
 
     </form>
 </template>

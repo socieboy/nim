@@ -1,5 +1,5 @@
 <template>
-    <button type="button" class="btn pull-right" :class="{
+    <button type="button" class="btn" :class="{
                     'btn-success': response === true,
                     'btn-outline-dark': response === null,
                     'btn-danger': response === false

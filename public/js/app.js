@@ -38325,7 +38325,7 @@ var render = function() {
   return _c(
     "button",
     {
-      staticClass: "btn pull-right",
+      staticClass: "btn",
       class: {
         "btn-success": _vm.response === true,
         "btn-outline-dark": _vm.response === null,
@@ -38550,12 +38550,10 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _c("ping", { attrs: { from: _vm.network } }),
-      _vm._v(" "),
       _c(
         "button",
         {
-          staticClass: "btn btn-primary",
+          staticClass: "btn btn-primary pull-right",
           attrs: { type: "button", disabled: _vm.canSave || _vm.submitted },
           on: {
             click: function($event) {
@@ -38574,7 +38572,9 @@ var render = function() {
             }
           })
         ]
-      )
+      ),
+      _vm._v(" "),
+      _c("ping", { attrs: { from: _vm.network } })
     ],
     1
   )
