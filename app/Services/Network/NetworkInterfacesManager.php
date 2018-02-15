@@ -35,6 +35,7 @@ class NetworkInterfacesManager
         try {
             $interface = new NetworkInterface($interface);
             $interface->update($data);
+            shell_exec('sudo ip addr flush ' . $interface->name);
             shell_exec('sudo service networking restart');
         } catch (\Exception $exception) {
             Log::info($exception);
