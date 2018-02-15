@@ -1676,8 +1676,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -1791,19 +1789,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
     props: ['from'],
 
+    data: function data() {
+        return {
+            submitted: false,
+            response: null
+        };
+    },
+
+
     methods: {
         ping: function ping() {
+            var _this = this;
+
+            this.submitted = true;
             axios.post('/api/network-interfaces/' + this.from.name + '/ping').then(function (response) {
-                console.log(response.data);
+                _this.submitted = false;
+                _this.response = response.data.status;
             }).catch(function (_ref) {
                 var response = _ref.response;
 
-                console.log(response.data);
+                _this.submitted = false;
             });
         }
     }
@@ -38305,20 +38322,40 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "button",
-      {
-        attrs: { type: "button" },
-        on: {
-          click: function($event) {
-            _vm.ping()
-          }
-        }
+  return _c(
+    "button",
+    {
+      staticClass: "btn pull-right",
+      class: {
+        "btn-success": _vm.response === true,
+        "btn-outline-dark": _vm.response === null,
+        "btn-danger": _vm.response === false
       },
-      [_vm._v("Test Connection")]
-    )
-  ])
+      attrs: { type: "button", disable: _vm.submitted },
+      on: {
+        click: function($event) {
+          _vm.ping()
+        }
+      }
+    },
+    [
+      _vm.response ? _c("i", { staticClass: "fa fa-check" }) : _vm._e(),
+      _vm._v(" "),
+      _vm.response != null && _vm.response === false
+        ? _c("i", { staticClass: "fa fa-times" })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.submitted
+        ? _c("i", { staticClass: "fa fa-spin fa-spinner" })
+        : _vm._e(),
+      _vm._v(" "),
+      _c("span", {
+        domProps: {
+          textContent: _vm._s(_vm.submitted ? "Wait..." : "Test Connection")
+        }
+      })
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38513,33 +38550,31 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary",
-            attrs: { type: "button", disabled: _vm.canSave || _vm.submitted },
-            on: {
-              click: function($event) {
-                _vm.save()
-              }
-            }
-          },
-          [
-            _vm.submitted
-              ? _c("i", { staticClass: "fa fa-spin fa-spinner" })
-              : _vm._e(),
-            _vm._v(" "),
-            _c("span", {
-              domProps: {
-                textContent: _vm._s(_vm.submitted ? "Saving..." : "Save")
-              }
-            })
-          ]
-        )
-      ]),
+      _c("ping", { attrs: { from: _vm.network } }),
       _vm._v(" "),
-      _c("ping", { attrs: { from: _vm.network } })
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { type: "button", disabled: _vm.canSave || _vm.submitted },
+          on: {
+            click: function($event) {
+              _vm.save()
+            }
+          }
+        },
+        [
+          _vm.submitted
+            ? _c("i", { staticClass: "fa fa-spin fa-spinner" })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("span", {
+            domProps: {
+              textContent: _vm._s(_vm.submitted ? "Saving..." : "Save")
+            }
+          })
+        ]
+      )
     ],
     1
   )
