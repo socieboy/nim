@@ -42,6 +42,7 @@ sudo chown www-data:www-data /sbin/ifconfig
 Add the following lines to the /etc/sudoers file. (use visudo)
 ```
 www-data ALL=(root) NOPASSWD: /sbin/ifconfig
+www-data ALL=(root) NOPASSWD: /bin/ip
 www-data ALL=(root) NOPASSWD: /usr/sbin/service networking restart
 ```
 

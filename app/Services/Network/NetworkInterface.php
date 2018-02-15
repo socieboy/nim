@@ -117,7 +117,6 @@ class NetworkInterface
     protected function interfaceGateway()
     {
         $output = is_local_envorioment() ? 'IP4.GATEWAY:                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->name . ' | grep IP4.GATEWAY');
-        Log::info($output);
         $output = explode(':', $output);
         if (isset($output[1])) return trim($output[1]);
         return '';

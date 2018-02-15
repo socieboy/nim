@@ -1721,8 +1721,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         isStatic: function isStatic() {
             return this.network.type == 'static';
         },
+        isDhcp: function isDhcp() {
+            return !this.Static;
+        },
         canSave: function canSave() {
-            if (!this.isStatic) return false;
+            if (this.isDhcp) return false;
             for (var key in this.network) {
                 if (typeof this.network[key] == 'string') {
                     if (this.network[key].trim() == '') return true;
