@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NetworkInterfaceRequest;
 use Facades\App\Services\Network\NetworkInterfacesManager;
 
 class NetworkInterfaceController extends Controller
@@ -10,31 +11,23 @@ class NetworkInterfaceController extends Controller
     /**
      * Return all network interfaces.
      *
-     * @return mixed
+     * @return array
      */
     public function index()
     {
         return NetworkInterfacesManager::read();
     }
 
-
     /**
      * Write the new interface settings.
      *
-     * @return \Illuminate\Contracts\Routing\ResponseFactory
+     * @param NetworkInterfaceRequest $request
+     * @param $interface
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function store($interface)
+    public function store(NetworkInterfaceRequest $request, $interface)
     {
-        $data = request()->validate([
-            'type' => 'required|in:dhcp,static',
-            'ip_address' => 'required_if:type,static',
-            'netmask' => 'required_if:type,static',
-            'gateway' => 'required_if:type,static',
-            'dns' => 'required_if:type,static',
-        ]);
-        $status = NetworkInterfacesManager::write($interface, $data);
-        return response([
-            'status' => $status
-        ]);
+        $status = NetworkInterfacesManager::write($interface, $request->all());
+        return response(['status' => $status]);
     }
 }

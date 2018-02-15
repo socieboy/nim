@@ -2,7 +2,7 @@
 
 auto eth0
 iface eth0 inet static
-address 165.227.63.109
+address 165.227.63.109a
 netmask 255.255.240.0
 gateway 192.11.88.1
 dns-nameservers 8.8.8.8
