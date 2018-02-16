@@ -20,14 +20,14 @@ class NetworkInterface
      *
      * @var string
      */
-    public $connection = '';
+    public $type = '';
 
     /**
      * DHCP, Static.
      *
      * @var string
      */
-    public $conf = 'dhcp';
+    public $mode = 'dhcp';
 
     /**
      * Hardware MAC Address.
@@ -87,94 +87,30 @@ class NetworkInterface
      */
     private function loadInterfaceConfiguration()
     {
-//        $command = 'sudo /sbin/ifconfig ' . $this->device;
-//
-//        $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec($command);
-//
-//        $regex = [];
-//
-//        preg_match("/^({$this->device})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
-//            "inet addr:([0-9.]+).*Bcast:([0-9.]+).*Mask:([0-9.]+).*" .
-//            "MTU:([0-9.]+).*Metric:([0-9.]+).*" .
-//            "RX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*frame:([0-9.]+).*" .
-//            "TX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*carrier:([0-9.]+).*" .
-//            "RX bytes:([0-9.]+).*\((.*)\).*TX bytes:([0-9.]+).*\((.*)\)" .
-//            "/ims", $output, $regex);
-//
-//        if (empty($regex)) return;
+        $command = 'sudo /sbin/ifconfig ' . $this->device;
 
-//        $this->mode = $regex[2];
-//        $this->mac = $regex[3];
-//        $this->ip_address = $regex[4];
-//        $this->ip_address = $regex[4];
-        $this->mac = $this->interfaceValue('mac');
-        $this->gateway = $this->interfaceValue('ip');
-//        $this->netmask = $regex[6];
-//        $this->metric = intval($regex[8]);
-        $this->conf = $this->interfaceType();
-        $this->type = $this->interfaceValue('type');
-        $this->dns =$this->interfaceValue('dns');
-    }
+        $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec($command);
 
-    protected function interfaceGateway()
-    {
-        $output = is_local_envorioment() ? 'IP4.GATEWAY:                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep IP4.GATEWAY');
-        $output = explode(':', $output);
-        if (isset($output[1])) return trim($output[1]);
-        return '';
-    }
+        $regex = [];
 
-    /**
-     * Return the type of the interface DHCP or Static.
-     *
-     * @return string
-     */
-    protected function interfaceType()
-    {
-        $lines = (explode(PHP_EOL, File::get($this->interfaceFilePath())));
-        $result = 'dhcp';
-        foreach ($lines as $line) {
-            if ("iface " . $this->device . " inet static" == $line) {
-                $result = 'static';
-            }
-        }
-        return $result;
-    }
+        preg_match("/^({$this->device})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
+            "inet addr:([0-9.]+).*Bcast:([0-9.]+).*Mask:([0-9.]+).*" .
+            "MTU:([0-9.]+).*Metric:([0-9.]+).*" .
+            "RX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*frame:([0-9.]+).*" .
+            "TX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*carrier:([0-9.]+).*" .
+            "RX bytes:([0-9.]+).*\((.*)\).*TX bytes:([0-9.]+).*\((.*)\)" .
+            "/ims", $output, $regex);
 
-    /**
-     * Read the dns-nameservers address line from the interface file.
-     *
-     * @return string
-     */
-    protected function interfaceDNS()
-    {
-        $lines = (explode(PHP_EOL, File::get($this->interfaceFilePath())));
-        foreach ($lines as $line) {
-            if (str_contains($line, 'dns-nameservers')) {
-                $data = explode(' ', $line);
-                return isset($data[1]) ? $data[1] : '';
-            }
-        }
-        return '';
-    }
+        if (empty($regex)) return;
 
-    /**
-     * Get a example output of the command ifconfig {interfaz_name} to work with in local enviroment.
-     *
-     * @return string
-     */
-    protected function  interfaceOutputForDevelopment()
-    {
-        return <<<EOF
-{$this->device}      Link encap:Ethernet  HWaddr aa:57:82:94:01:47  
-          inet addr:165.227.63.109  Bcast:165.227.63.255  Mask:255.255.240.0
-          inet6 addr: fe80::a857:82ff:fe94:147/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:31129519 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:29833946 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:12172234716 (12.1 GB)  TX bytes:88545983630 (88.5 GB) 
-EOF;
+        $this->mac = $regex[3];
+        $this->ip_address = $regex[4];
+        $this->gateway = $this->gateway();
+        $this->netmask = $regex[6];
+        $this->metric = intval($regex[8]);
+        $this->conf_type = $this->confType();
+        $this->dns =$this->dns();
+        $this->type = $this->type();
     }
 
     /**
@@ -215,21 +151,6 @@ EOF;
     }
 
     /**
-     * Return the path for the interfaces file.
-     *
-     * @return string
-     */
-    protected function interfaceFilePath()
-    {
-        $path = (is_local_envorioment()) ? base_path('resources/stubs/interface_' . $this->device) : '/etc/network/interfaces.d/interface_' . $this->device;
-        if (!File::exists($path)) {
-            File::put($path, '');
-        }
-        return $path;
-    }
-
-
-    /**
      * Return true of false if we can hit the endpoint with the current interface.
      *
      * @param string $endpoint
@@ -253,29 +174,4 @@ EOF;
         shell_exec('sudo service networking restart');
         return $this;
     }
-
-
-
-//
-// TO USE WITH NETWORK MANAGER
-//    protected function interfacesForDev()
-//    {
-//        $output = <<<EOF
-//DEVICE  TYPE      STATE        CONNECTION
-//enp1s0  ethernet  connected    Ifupdown (enp1s0)
-//enp2s0  ethernet  connected    Ifupdown (enp2s0)
-//enp3s0  ethernet  unavailable  --
-//lo      loopback  unmanaged    --
-//
-//EOF;
-//        return ['eth0', 'eth1'];
-//        return $this->parseOutput($output);
-//    }
-//
-//    protected function parseOutput($output)
-//    {
-
-//    }
-//
-
 }

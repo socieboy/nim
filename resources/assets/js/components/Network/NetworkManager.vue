@@ -10,7 +10,7 @@
                    data-toggle="tab"
                    role="tab"
                    aria-selected="true">
-                   {{ interface.connection + ' ' + interface.device }}
+                   {{ interface.device }}
                 </a>
             </li>
         </ul>

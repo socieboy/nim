@@ -2,8 +2,8 @@
     <form class="network-manager">
 
         <div class="form-group">
-            <label for="conf">Configuration Type</label>
-            <select v-model="network.conf" name="conf" id="conf" class="form-control">
+            <label for="conf_type">Configuration Type</label>
+            <select v-model="network.conf_type" name="conf_type" id="conf_type" class="form-control">
                 <option value="dhcp">DCHP</option>
                 <option value="static">Static</option>
             </select>
@@ -53,7 +53,7 @@
         methods:{
             save(){
                 this.submitted = true;
-                axios.post('/api/network-interface/' + this.interface.name, this.network).then(response => {
+                axios.post('/api/network-interface/' + this.interface.device, this.network).then(response => {
                     Alert.success('Your network has been updated!');
                     this.submitted = false;
                 }).catch(({response}) => {
@@ -66,7 +66,7 @@
         computed: {
 
             isStatic(){
-                return this.network.conf == 'static';
+                return this.network.conf_type == 'static';
             },
 
             isDhcp(){

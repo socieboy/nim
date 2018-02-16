@@ -1694,7 +1694,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.submitted = true;
-            axios.post('/api/network-interface/' + this.interface.name, this.network).then(function (response) {
+            axios.post('/api/network-interface/' + this.interface.device, this.network).then(function (response) {
                 Alert.success('Your network has been updated!');
                 _this.submitted = false;
             }).catch(function (_ref) {
@@ -1708,7 +1708,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         isStatic: function isStatic() {
-            return this.network.conf == 'static';
+            return this.network.conf_type == 'static';
         },
         isDhcp: function isDhcp() {
             return !this.isStatic;
@@ -38410,7 +38410,7 @@ var render = function() {
             [
               _vm._v(
                 "\n               " +
-                  _vm._s(interface.connection + " " + interface.device) +
+                  _vm._s(interface.device) +
                   "\n            "
               )
             ]
@@ -38620,7 +38620,9 @@ var render = function() {
     { staticClass: "network-manager" },
     [
       _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "conf" } }, [_vm._v("Configuration Type")]),
+        _c("label", { attrs: { for: "conf_type" } }, [
+          _vm._v("Configuration Type")
+        ]),
         _vm._v(" "),
         _c(
           "select",
@@ -38629,12 +38631,12 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.network.conf,
-                expression: "network.conf"
+                value: _vm.network.conf_type,
+                expression: "network.conf_type"
               }
             ],
             staticClass: "form-control",
-            attrs: { name: "conf", id: "conf" },
+            attrs: { name: "conf_type", id: "conf_type" },
             on: {
               change: function($event) {
                 var $$selectedVal = Array.prototype.filter
@@ -38647,7 +38649,7 @@ var render = function() {
                   })
                 _vm.$set(
                   _vm.network,
-                  "conf",
+                  "conf_type",
                   $event.target.multiple ? $$selectedVal : $$selectedVal[0]
                 )
               }
