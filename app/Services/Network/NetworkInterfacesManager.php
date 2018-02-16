@@ -18,7 +18,7 @@ class NetworkInterfacesManager
         $interfaces = is_local_envorioment() ? $this->interfacesForDev() : $this->interfacesForProduction();
         $array = [];
         foreach ($interfaces as $interface) {
-            $array[$interface] = new NetworkInterface($interface);
+            $array[$interface[0]] = new NetworkInterface($interface[0]);
         }
         return $array;
     }
