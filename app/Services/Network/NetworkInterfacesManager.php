@@ -60,16 +60,6 @@ class NetworkInterfacesManager
             }
         }
         return $interfaces;
-
-//        $pattern = config('nim.interfaces.pattern');
-//        $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
-//        if (empty($output)) return [];
-//        $output = explode(PHP_EOL, $output);
-//        $array = [];
-//        foreach ($output as $line) {
-//            if (!empty($line)) $array[] = $line;
-//        }
-//        return $array;
     }
 
     protected function cleanInterfaceOutput($line)
