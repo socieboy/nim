@@ -1708,7 +1708,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         isStatic: function isStatic() {
-            return this.network.type == 'static';
+            return this.network.conf == 'static';
         },
         isDhcp: function isDhcp() {
             return !this.isStatic;
@@ -38410,7 +38410,7 @@ var render = function() {
             [
               _vm._v(
                 "\n               " +
-                  _vm._s(interface.mode + " " + interface.device) +
+                  _vm._s(interface.connection + " " + interface.device) +
                   "\n            "
               )
             ]
@@ -38629,8 +38629,8 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.network.type,
-                expression: "network.type"
+                value: _vm.network.conf,
+                expression: "network.conf"
               }
             ],
             staticClass: "form-control",
@@ -38647,7 +38647,7 @@ var render = function() {
                   })
                 _vm.$set(
                   _vm.network,
-                  "type",
+                  "conf",
                   $event.target.multiple ? $$selectedVal : $$selectedVal[0]
                 )
               }

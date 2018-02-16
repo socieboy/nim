@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\File;
 
 class NetworkInterface
 {
+    use ReadInterfaces;
+
     /**
      * Network interface name.
      *
@@ -18,14 +20,21 @@ class NetworkInterface
      *
      * @var string
      */
-    public $mode = '';
+    public $connection = '';
 
     /**
      * DHCP, Static.
      *
      * @var string
      */
-    public $type = 'dhcp';
+    public $conf = 'dhcp';
+
+    /**
+     * Hardware MAC Address.
+     *
+     * @var string
+     */
+    public $mac = '';
 
     /**
      * IP Address.
@@ -63,20 +72,13 @@ class NetworkInterface
     public $metric = '';
 
     /**
-     * MAC address.
-     *
-     * @var
-     */
-    public $mac;
-
-    /**
      * Create a new instance of Network Interface object.
      *
      * @param $name
      */
-    public function __construct($name)
+    public function __construct($device)
     {
-        $this->device = $name;
+        $this->device = $device;
         $this->loadInterfaceConfiguration();
     }
 
@@ -85,30 +87,31 @@ class NetworkInterface
      */
     private function loadInterfaceConfiguration()
     {
-        $command = 'sudo /sbin/ifconfig ' . $this->device;
+//        $command = 'sudo /sbin/ifconfig ' . $this->device;
+//
+//        $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec($command);
+//
+//        $regex = [];
+//
+//        preg_match("/^({$this->device})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
+//            "inet addr:([0-9.]+).*Bcast:([0-9.]+).*Mask:([0-9.]+).*" .
+//            "MTU:([0-9.]+).*Metric:([0-9.]+).*" .
+//            "RX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*frame:([0-9.]+).*" .
+//            "TX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*carrier:([0-9.]+).*" .
+//            "RX bytes:([0-9.]+).*\((.*)\).*TX bytes:([0-9.]+).*\((.*)\)" .
+//            "/ims", $output, $regex);
+//
+//        if (empty($regex)) return;
 
-        $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec($command);
-
-        $regex = [];
-
-        preg_match("/^({$this->device})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
-            "inet addr:([0-9.]+).*Bcast:([0-9.]+).*Mask:([0-9.]+).*" .
-            "MTU:([0-9.]+).*Metric:([0-9.]+).*" .
-            "RX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*frame:([0-9.]+).*" .
-            "TX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*carrier:([0-9.]+).*" .
-            "RX bytes:([0-9.]+).*\((.*)\).*TX bytes:([0-9.]+).*\((.*)\)" .
-            "/ims", $output, $regex);
-
-        if (empty($regex)) return;
-
-        $this->mode = $regex[2];
-        $this->mac = $regex[3];
-        $this->ip_address = $regex[4];
-        $this->gateway = $this->interfaceGateway();
-        $this->netmask = $regex[6];
-        $this->metric = intval($regex[8]);
-        $this->type = $this->interfaceType();
-        $this->dns =$this->interfaceDNS();
+//        $this->mode = $regex[2];
+//        $this->mac = $regex[3];
+//        $this->ip_address = $regex[4];
+        $this->gateway = $this->interfaceValue('gateway');
+//        $this->netmask = $regex[6];
+//        $this->metric = intval($regex[8]);
+        $this->conf = $this->interfaceType();
+        $this->type = $this->interfaceValue('type');
+        $this->dns =$this->interfaceValue('dns');
     }
 
     protected function interfaceGateway()
@@ -173,10 +176,10 @@ EOF;
     }
 
     /**
-     * Update a file on the /etc/network/interfaces.d/interface_{$this->device}
-     * with the configuration for the interface.
+     * Update the configuration fiel of the interface.
      *
      * @param $data
+     * @return $this;
      */
     public function update($data)
     {
@@ -186,8 +189,7 @@ EOF;
 
         if ($data['type'] == 'dhcp') {
             $content .= 'dhcp';
-            $this->writeFile($content);
-            return;
+            return $this->writeFile($content);
         }
 
         $content .= 'static' . PHP_EOL;
@@ -195,7 +197,7 @@ EOF;
         $content .= 'netmask ' . $data['netmask'] . PHP_EOL;
         $content .= 'gateway ' . $data['gateway'] . PHP_EOL;
         $content .= 'dns-nameservers ' . $data['dns'];
-        $this->writeFile($content);
+        return $this->writeFile($content);
     }
 
     /**
@@ -207,6 +209,7 @@ EOF;
     protected function writeFile($content)
     {
         File::put($this->interfaceFilePath(), $content);
+        return $this;
     }
 
     /**
@@ -235,6 +238,18 @@ EOF;
         exec('ping -I ' . $this->device . ' -w 10 -c 1 ' . $endpoint, $result);
         $result = implode(' ', $result);
         return (str_contains($result, ' bytes from ') && str_contains($result, '0% packet loss')) ? true : false;
+    }
+
+    /**
+     * Apply the changes on the interface by reseting the networking service.
+     *
+     * @return $this
+     */
+    public function apply()
+    {
+        shell_exec('sudo ip addr flush ' . $this->name);
+        shell_exec('sudo service networking restart');
+        return $this;
     }
 
 

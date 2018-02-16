@@ -26,7 +26,7 @@ class IpAddress implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (request('type') == 'static') {
+        if (request('conf') == 'static') {
             return preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $value);
         }
         return true;

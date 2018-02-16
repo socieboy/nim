@@ -6,76 +6,38 @@ use Illuminate\Support\Facades\Log;
 
 class NetworkInterfacesManager
 {
+    use ReadInterfaces;
 
     /**
-     * Create a Network Interface object for each interface
-     * and return an array with all interfaces.
+     * Create a Network Interface object for each interface device readed.
      *
      * @return array
      */
     public function read()
     {
-        $interfaces = is_local_envorioment() ? ['eth0', 'eth1'] : $this->interfacesForProduction();
+        $devices = is_local_envorioment() ? ['eth0', 'eth1'] : $this->readDeviceNames();
         $array = [];
-        foreach ($interfaces as $interface) {
-            $array[$interface] = new NetworkInterface($interface);
+        foreach ($devices as $device) {
+            $array[$device] = new NetworkInterface($device);
         }
         return $array;
     }
 
     /**
-     * Find the interface privided and update the settings.
+     * Find the interface provided and update the settings.
      *
      * @param $interface
      * @param $data
      * @return int
      */
-    public function write($interface, $data)
+    public function write($device, $data)
     {
         try {
-            $interface = new NetworkInterface($interface);
-            $interface->update($data);
-            shell_exec('sudo ip addr flush ' . $interface->name);
-            shell_exec('sudo service networking restart');
+            $interface = new NetworkInterface($device);
+            $interface->update($data)->apply();
         } catch (\Exception $exception) {
             Log::info($exception);
             return false;
         }
-    }
-
-    /**
-     * Get the name of all interfaces from the system.
-     *
-     * @return string
-     */
-    protected function interfacesForProduction()
-    {
-        $output = shell_exec("nmcli device status");
-        $output = explode(PHP_EOL, $output);
-        $interfaces = [];
-        foreach ($output as $key => $line) {
-            if ($this->isValidInterface($line)) {
-                $out = $this->cleanInterfaceOutput($line);
-                $interfaces[] = $out[0];
-            }
-        }
-        return $interfaces;
-    }
-
-    protected function cleanInterfaceOutput($line)
-    {
-        $out = explode('  ', $line);
-        $new = [];
-        foreach ($out as $i => $x) {
-            if (!empty($x)) {
-                $new[] = $out[$i];
-            }
-        }
-        return $new;
-    }
-
-    protected function isValidInterface($line)
-    {
-        return !empty($line) && !str_contains($line, 'DEVICE  TYPE      STATE        CONNECTION') && !str_contains($line, 'lo      loopback');
     }
 }

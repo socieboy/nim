@@ -3,7 +3,7 @@
 
         <div class="form-group">
             <label for="type">Type</label>
-            <select v-model="network.type" name="type" id="type" class="form-control">
+            <select v-model="network.conf" name="type" id="type" class="form-control">
                 <option value="dhcp">DCHP</option>
                 <option value="static">Static</option>
             </select>
@@ -66,7 +66,7 @@
         computed: {
 
             isStatic(){
-                return this.network.type == 'static';
+                return this.network.conf == 'static';
             },
 
             isDhcp(){
