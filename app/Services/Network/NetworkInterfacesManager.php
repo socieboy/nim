@@ -15,7 +15,7 @@ class NetworkInterfacesManager
      */
     public function read()
     {
-        $interfaces = is_local_envorioment() ? $this->interfacesForDev() : $this->interfaceForProduction();
+        $interfaces = is_local_envorioment() ? $this->interfacesForDev() : $this->interfacesForProduction();
         $array = [];
         foreach ($interfaces as $interface) {
             $array[$interface] = new NetworkInterface($interface);
