@@ -169,6 +169,7 @@ class NetworkInterface
     {
         $command = 'ping -I ' . $this->device . ' -w 10 -c 1 ' . $endpoint;
         exec($command, $result);
+        Log::info($result);
         $result = implode(' ', $result);
         return (str_contains($result, ' bytes from ' . $this->ip_address . ' ' . $this->device . ':') && str_contains($result, '0% packet loss')) ? true : false;
     }
