@@ -3,6 +3,7 @@
 namespace App\Services\Network;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class NetworkInterface
 {
@@ -168,6 +169,7 @@ class NetworkInterface
     {
         exec('ping -I ' . $this->device . ' -w 10 -c 1 ' . $endpoint, $result);
         $result = implode(' ', $result);
+        Log::info($result);
         return (str_contains($result, ' bytes from ' . $this->ip . ' ' . $this->device . ':') && str_contains($result, '0% packet loss')) ? true : false;
     }
 
