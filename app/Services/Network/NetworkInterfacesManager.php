@@ -66,21 +66,22 @@ class NetworkInterfacesManager
 
     protected function interfacesForDev()
     {
-        $output = <<<EHF
+        $output = <<<EOF
 DEVICE  TYPE      STATE        CONNECTION
 enp1s0  ethernet  connected    Ifupdown (enp1s0)
 enp2s0  ethernet  connected    Ifupdown (enp2s0)
 enp3s0  ethernet  unavailable  --
 lo      loopback  unmanaged    --
-EHF;
+EOF;
         return $this->parseOutput($output);
     }
 
     protected function parseOutput($output)
     {
         $output = explode(PHP_EOL, $output);
-        unset($output[count($output)]);
-        unset($output[0]);
+        unset($output[count($output)]); // Remove last empty line of output.
+        unset($output[count($output) - 1]); // Remove the lo interface info.
+        unset($output[0]); // Remove header information.
         Log::info($output);
         $array = [];
         foreach ($output as $key => $line) {
