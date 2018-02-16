@@ -51,6 +51,7 @@ class NetworkInterfacesManager
     protected function interfacesForProduction()
     {
         $output = shell_exec("nmcli device status");
+        Log::info($output);
         return $this->parseOutput($output);
 //        $pattern = config('nim.interfaces.pattern');
 //        $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
