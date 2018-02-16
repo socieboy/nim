@@ -167,8 +167,7 @@ class NetworkInterface
      */
     public function ping($endpoint = 'google.com')
     {
-        $output = shell_exec('ping -I ' . $this->device . ' -w 10 -c 1 ' . $endpoint);
-        $result = implode(' ', $output);
+        $result = shell_exec('ping -I ' . $this->device . ' -w 10 -c 1 ' . $endpoint);
         return (str_contains($result, ' bytes from ' . $this->ip_address . ' ' . $this->device . ':') && str_contains($result, '0% packet loss')) ? true : false;
     }
 
