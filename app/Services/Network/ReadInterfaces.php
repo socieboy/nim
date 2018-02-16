@@ -50,7 +50,7 @@ trait ReadInterfaces
      */
     protected function isValidInterface($line)
     {
-        return !empty($line) && !str_contains($line, 'DEVICE  TYPE      STATE        CONNECTION') && !str_contains($line, 'lo      loopback');
+        return !empty($line) && !str_contains($line, 'DEVICE') && !str_contains($line, 'loopback');
     }
 
     /**
