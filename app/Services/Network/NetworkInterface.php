@@ -27,7 +27,7 @@ class NetworkInterface
      *
      * @var string
      */
-    public $mode = 'dhcp';
+    public $conf_type = 'dhcp';
 
     /**
      * Hardware MAC Address.
