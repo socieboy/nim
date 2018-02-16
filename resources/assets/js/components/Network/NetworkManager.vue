@@ -4,13 +4,13 @@
             <li class="nav-item" v-for="(interface, key, index) in interfaces">
                 <a class="nav-link"
                    :class="{'active' : index == 0}"
-                   :id="interface.name + '-tab'"
-                   :href="'#' + interface.name"
-                   :aria-controls="interface.name"
+                   :id="interface.device + '-tab'"
+                   :href="'#' + interface.device"
+                   :aria-controls="interface.device"
                    data-toggle="tab"
                    role="tab"
                    aria-selected="true">
-                   {{ interface.mode + ' ' + interface.name }}
+                   {{ interface.mode + ' ' + interface.device }}
                 </a>
             </li>
         </ul>
@@ -18,8 +18,8 @@
             <div class="tab-pane fade"
                  v-for="(interface, key, index) in interfaces"
                  :class="{' show active' : index == 0}"
-                 :id="interface.name"
-                 :aria-labelledby="interface.name + '-tab'"
+                 :id="interface.device"
+                 :aria-labelledby="interface.device + '-tab'"
                  role="tabpanel">
                 <network-interface :interface="interface"></network-interface>
             </div>

@@ -38399,9 +38399,9 @@ var render = function() {
               staticClass: "nav-link",
               class: { active: index == 0 },
               attrs: {
-                id: interface.name + "-tab",
-                href: "#" + interface.name,
-                "aria-controls": interface.name,
+                id: interface.device + "-tab",
+                href: "#" + interface.device,
+                "aria-controls": interface.device,
                 "data-toggle": "tab",
                 role: "tab",
                 "aria-selected": "true"
@@ -38410,7 +38410,7 @@ var render = function() {
             [
               _vm._v(
                 "\n               " +
-                  _vm._s(interface.mode + " " + interface.name) +
+                  _vm._s(interface.mode + " " + interface.device) +
                   "\n            "
               )
             ]
@@ -38429,8 +38429,8 @@ var render = function() {
             staticClass: "tab-pane fade",
             class: { " show active": index == 0 },
             attrs: {
-              id: interface.name,
-              "aria-labelledby": interface.name + "-tab",
+              id: interface.device,
+              "aria-labelledby": interface.device + "-tab",
               role: "tabpanel"
             }
           },

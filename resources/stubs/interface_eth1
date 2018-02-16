@@ -1,4 +1,0 @@
-# Network Interface "eth1" Configuration File
-
-auto eth1
-iface eth1 inet dhcp

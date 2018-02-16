@@ -15,10 +15,10 @@ class NetworkInterfacesManager
      */
     public function read()
     {
-        $interfaces = is_local_envorioment() ? $this->interfacesForDev() : $this->interfacesForProduction();
+        $interfaces = is_local_envorioment() ? ['eth0', 'eth1'] : $this->interfacesForProduction();
         $array = [];
         foreach ($interfaces as $interface) {
-            $array[$interface[0]] = new NetworkInterface($interface[0]);
+            $array[$interface] = new NetworkInterface($interface);
         }
         return $array;
     }
@@ -50,53 +50,14 @@ class NetworkInterfacesManager
      */
     protected function interfacesForProduction()
     {
-        $output = shell_exec("nmcli device status");
-        Log::info($output);
-        return $this->parseOutput($output);
-//        $pattern = config('nim.interfaces.pattern');
-//        $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
-//        if (empty($output)) return [];
-//        $output = explode(PHP_EOL, $output);
-//        $array = [];
-//        foreach ($output as $line) {
-//            if (!empty($line)) $array[] = $line;
-//        }
-//        return $array;
-    }
-
-    protected function interfacesForDev()
-    {
-        $output = <<<EOF
-DEVICE  TYPE      STATE        CONNECTION
-enp1s0  ethernet  connected    Ifupdown (enp1s0)
-enp2s0  ethernet  connected    Ifupdown (enp2s0)
-enp3s0  ethernet  unavailable  --
-lo      loopback  unmanaged    --
-
-EOF;
-        return $this->parseOutput($output);
-    }
-
-    protected function parseOutput($output)
-    {
+        $pattern = config('nim.interfaces.pattern');
+        $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
+        if (empty($output)) return [];
         $output = explode(PHP_EOL, $output);
         $array = [];
-        foreach ($output as $key => $line) {
-            if(!empty($line) && !str_contains($line, 'DEVICE  TYPE      STATE        CONNECTION') && !str_contains($line, 'lo      loopback')) {
-                $out = (explode('  ', $line));
-                foreach ($out as $i => $x) {
-                    if (empty($x)) unset($out[$i]);
-                }
-                $array[] = $out;
-            }
+        foreach ($output as $line) {
+            if (!empty($line)) $array[] = $line;
         }
         return $array;
-    }
-
-    public function ping($interface, $endpoint)
-    {
-        exec('ping -I ' . $interface . ' -w 10 -c 1 ' . $endpoint, $result);
-        $result = implode(' ', $result);
-        return (str_contains($result, ' bytes from ') && str_contains($result, '0% packet loss')) ? true : false;
     }
 }

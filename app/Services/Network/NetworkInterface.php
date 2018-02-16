@@ -11,7 +11,7 @@ class NetworkInterface
      *
      * @var $string
      */
-    public $name;
+    public $device;
 
     /**
      * Ethernet, Wireless, LTE.
@@ -76,7 +76,7 @@ class NetworkInterface
      */
     public function __construct($name)
     {
-        $this->name = $name;
+        $this->device = $name;
         $this->loadInterfaceConfiguration();
     }
 
@@ -85,13 +85,13 @@ class NetworkInterface
      */
     private function loadInterfaceConfiguration()
     {
-        $command = 'sudo /sbin/ifconfig ' . $this->name;
+        $command = 'sudo /sbin/ifconfig ' . $this->device;
 
         $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec($command);
 
         $regex = [];
 
-        preg_match("/^({$this->name})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
+        preg_match("/^({$this->device})\s+Link\s+encap:([A-z]*)\s+HWaddr\s+([A-z0-9:]*).*" .
             "inet addr:([0-9.]+).*Bcast:([0-9.]+).*Mask:([0-9.]+).*" .
             "MTU:([0-9.]+).*Metric:([0-9.]+).*" .
             "RX packets:([0-9.]+).*errors:([0-9.]+).*dropped:([0-9.]+).*overruns:([0-9.]+).*frame:([0-9.]+).*" .
@@ -113,7 +113,7 @@ class NetworkInterface
 
     protected function interfaceGateway()
     {
-        $output = is_local_envorioment() ? 'IP4.GATEWAY:                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->name . ' | grep IP4.GATEWAY');
+        $output = is_local_envorioment() ? 'IP4.GATEWAY:                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep IP4.GATEWAY');
         $output = explode(':', $output);
         if (isset($output[1])) return trim($output[1]);
         return '';
@@ -129,7 +129,7 @@ class NetworkInterface
         $lines = (explode(PHP_EOL, File::get($this->interfaceFilePath())));
         $result = 'dhcp';
         foreach ($lines as $line) {
-            if ("iface " . $this->name . " inet static" == $line) {
+            if ("iface " . $this->device . " inet static" == $line) {
                 $result = 'static';
             }
         }
@@ -161,7 +161,7 @@ class NetworkInterface
     protected function  interfaceOutputForDevelopment()
     {
         return <<<EOF
-{$this->name}      Link encap:Ethernet  HWaddr aa:57:82:94:01:47  
+{$this->device}      Link encap:Ethernet  HWaddr aa:57:82:94:01:47  
           inet addr:165.227.63.109  Bcast:165.227.63.255  Mask:255.255.240.0
           inet6 addr: fe80::a857:82ff:fe94:147/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
@@ -173,16 +173,16 @@ EOF;
     }
 
     /**
-     * Update a file on the /etc/network/interfaces.d/interface_{$this->name}
+     * Update a file on the /etc/network/interfaces.d/interface_{$this->device}
      * with the configuration for the interface.
      *
      * @param $data
      */
     public function update($data)
     {
-        $content = '# Network Interface "' . $this->name . '" Configuration File' . PHP_EOL . PHP_EOL;
-        $content .= 'auto ' . $this->name . PHP_EOL;
-        $content .= 'iface ' . $this->name . ' inet ';
+        $content = '# Network Interface "' . $this->device . '" Configuration File' . PHP_EOL . PHP_EOL;
+        $content .= 'auto ' . $this->device . PHP_EOL;
+        $content .= 'iface ' . $this->device . ' inet ';
 
         if ($data['type'] == 'dhcp') {
             $content .= 'dhcp';
@@ -216,10 +216,77 @@ EOF;
      */
     protected function interfaceFilePath()
     {
-        $path = (is_local_envorioment()) ? base_path('resources/stubs/interface_' . $this->name) : '/etc/network/interfaces.d/interface_' . $this->name;
+        $path = (is_local_envorioment()) ? base_path('resources/stubs/interface_' . $this->device) : '/etc/network/interfaces.d/interface_' . $this->device;
         if (!File::exists($path)) {
             File::put($path, '');
         }
         return $path;
     }
+
+
+    /**
+     * Return true of false if we can hit the endpoint with the current interface.
+     *
+     * @param string $endpoint
+     * @return bool
+     */
+    public function ping($endpoint = 'google.com')
+    {
+        exec('ping -I ' . $this->device . ' -w 10 -c 1 ' . $endpoint, $result);
+        $result = implode(' ', $result);
+        return (str_contains($result, ' bytes from ') && str_contains($result, '0% packet loss')) ? true : false;
+    }
+
+
+
+//
+// TO USE WITH NETWORK MANAGER
+//    protected function interfacesForDev()
+//    {
+//        $output = <<<EOF
+//DEVICE  TYPE      STATE        CONNECTION
+//enp1s0  ethernet  connected    Ifupdown (enp1s0)
+//enp2s0  ethernet  connected    Ifupdown (enp2s0)
+//enp3s0  ethernet  unavailable  --
+//lo      loopback  unmanaged    --
+//
+//EOF;
+//        return ['eth0', 'eth1'];
+//        return $this->parseOutput($output);
+//    }
+//
+//    protected function parseOutput($output)
+//    {
+//        $output = explode(PHP_EOL, $output);
+//        $interfaces = [];
+//        foreach ($output as $key => $line) {
+//            if ($this->isValidInterface($line)) {
+//                $out = $this->cleanInterfaceOutput($line);
+//                $interfaces[] = [
+//                    'device' => $out[0],
+//                    'type' => $out[1],
+//                    'state' => $out[2],
+//                    'connection' => $out[3]
+//                ];
+//            }
+//        }
+//        return $interfaces;
+//    }
+//
+//    protected function cleanInterfaceOutput($line)
+//    {
+//        $out = explode('  ', $line);
+//        $new = [];
+//        foreach ($out as $i => $x) {
+//            if (!empty($x)) {
+//                $new[] = $out[$i];
+//            }
+//        }
+//        return $new;
+//    }
+//
+//    protected function isValidInterface($line)
+//    {
+//        return !empty($line) && !str_contains($line, 'DEVICE  TYPE      STATE        CONNECTION') && !str_contains($line, 'lo      loopback');
+//    }
 }

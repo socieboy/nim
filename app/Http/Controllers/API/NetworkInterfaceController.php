@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NetworkInterfaceRequest;
+use App\Services\Network\NetworkInterface;
 use Facades\App\Services\Network\NetworkInterfacesManager;
 
 class NetworkInterfaceController extends Controller
@@ -31,9 +32,15 @@ class NetworkInterfaceController extends Controller
         return response(['status' => $status]);
     }
 
+    /**
+     * Ping with network interface provided.
+     *
+     * @param $interface
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function show($interface)
     {
-        $status = NetworkInterfacesManager::ping($interface, 'google.com');
+        $status = (new NetworkInterface($interface))->ping();
         return response(['status' => $status]);
     }
 }
