@@ -2,8 +2,8 @@
     <form class="network-manager">
 
         <div class="form-group">
-            <label for="type">Type</label>
-            <select v-model="network.conf" name="type" id="type" class="form-control">
+            <label for="conf">Configuration Type</label>
+            <select v-model="network.conf" name="conf" id="conf" class="form-control">
                 <option value="dhcp">DCHP</option>
                 <option value="static">Static</option>
             </select>

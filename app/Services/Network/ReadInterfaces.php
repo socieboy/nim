@@ -5,12 +5,13 @@ namespace App\Services\Network;
 trait ReadInterfaces
 {
     protected $commands = [
-        'dns' => 'IP4.DNS[1]:',
-        'gateway' => 'IP4.GATEWAY:',
-        'type' => 'GENERAL.TYPE:',
-        'mac' => 'GENERAL.HWADDR:',
-        'connection' => 'GENERAL.CONNECTION:',
-        'state' => 'GENERAL.STATE:',
+        'dns' => 'IP4.DNS[1]',
+        'gateway' => 'IP4.GATEWAY',
+        'type' => 'GENERAL.TYPE',
+        'mac' => 'GENERAL.HWADDR',
+        'connection' => 'GENERAL.CONNECTION',
+        'state' => 'GENERAL.STATE',
+        'ip' => 'IP4.ADDRESS[1]',
     ];
     /**
      * Get the name of all interfaces from the system.

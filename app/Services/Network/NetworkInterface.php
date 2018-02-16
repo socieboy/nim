@@ -106,7 +106,9 @@ class NetworkInterface
 //        $this->mode = $regex[2];
 //        $this->mac = $regex[3];
 //        $this->ip_address = $regex[4];
-        $this->gateway = $this->interfaceValue('gateway');
+//        $this->ip_address = $regex[4];
+        $this->mac = $this->interfaceValue('mac');
+        $this->gateway = $this->interfaceValue('ip');
 //        $this->netmask = $regex[6];
 //        $this->metric = intval($regex[8]);
         $this->conf = $this->interfaceType();

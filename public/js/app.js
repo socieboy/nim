@@ -38620,7 +38620,7 @@ var render = function() {
     { staticClass: "network-manager" },
     [
       _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "type" } }, [_vm._v("Type")]),
+        _c("label", { attrs: { for: "conf" } }, [_vm._v("Configuration Type")]),
         _vm._v(" "),
         _c(
           "select",
@@ -38634,7 +38634,7 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
-            attrs: { name: "type", id: "type" },
+            attrs: { name: "conf", id: "conf" },
             on: {
               change: function($event) {
                 var $$selectedVal = Array.prototype.filter
