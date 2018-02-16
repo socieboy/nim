@@ -2,6 +2,8 @@
 
 namespace App\Services\Network;
 
+use Illuminate\Support\Facades\Log;
+
 trait ReadInterfaces
 {
     protected $commands = [
@@ -70,6 +72,7 @@ trait ReadInterfaces
     protected function interfaceValue($value)
     {
         $output = is_local_envorioment() ? $this->commands[$value] . ':                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep ' . $value);
+        Log::info($output);
         $output = explode(':', $output);
         if (isset($output[1])) return trim($output[1]);
         return '';
