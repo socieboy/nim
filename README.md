@@ -12,14 +12,7 @@ The idea of this application is creating a web based application to read and wri
 - Nginx
 
 #### Installation
-Copy the .env.example to .env and set the interface pattern value of your interface name device.
-
-Example:
-```
-Interface name: enp1s0
-Regular Expresion: enp[0-9]s[0-9]
-INTERFACES_PATTERN=enp[0-9]s[0-9]
-```
+Copy the .env.example to .env
 
 Install Network Manager for ubuntu
 ```

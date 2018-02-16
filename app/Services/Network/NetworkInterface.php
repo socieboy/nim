@@ -125,7 +125,7 @@ class NetworkInterface
         $content .= 'auto ' . $this->device . PHP_EOL;
         $content .= 'iface ' . $this->device . ' inet ';
 
-        if ($data['type'] == 'dhcp') {
+        if ($data['conf_type'] == 'dhcp') {
             $content .= 'dhcp';
             return $this->writeFile($content);
         }
