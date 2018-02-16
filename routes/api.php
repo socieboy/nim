@@ -17,7 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Webserver
+Route::get('webserver', 'API\WebServerController@index');
 Route::post('webserver', 'API\WebServerController@update');
+
 // Network
 Route::get('network-interfaces', 'API\NetworkInterfaceController@index');
 Route::post('network-interface/{interface}', 'API\NetworkInterfaceController@store');

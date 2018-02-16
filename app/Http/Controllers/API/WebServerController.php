@@ -7,6 +7,13 @@ use Facades\App\Services\Web\WebServer;
 
 class WebServerController extends Controller
 {
+    public function index()
+    {
+        return [
+            'name' => config('app.name'),
+            'port' => 80
+        ];
+    }
     /**
      * Update the webserver listening port.
      *

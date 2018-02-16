@@ -1853,20 +1853,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             submitted: false,
-            port: 80
+            webserver: {
+                name: '',
+                port: 80
+            }
         };
+    },
+    created: function created() {
+        var _this = this;
+
+        axios.get('/api/webserver').then(function (response) {
+            _this.webserver = response.data;
+        });
     },
 
 
     methods: {
         save: function save() {
-            axios.post('/api/webserver', { port: this.port }).then(function (response) {
+            axios.post('/api/webserver', this.webserver).then(function (response) {
                 console.log(response);
             }).catch(function (_ref) {
                 var response = _ref.response;
@@ -1878,7 +1887,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         canSave: function canSave() {
-            return typeof this.port == 'number';
+            return typeof this.webserver.port == 'number' && this.webserver.name.trim() != '';
         }
     }
 });
@@ -38460,19 +38469,19 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.name,
-            expression: "name"
+            value: _vm.webserver.name,
+            expression: "webserver.name"
           }
         ],
-        staticClass: "form-control col-md-6",
+        staticClass: "form-control",
         attrs: { type: "text", name: "name", id: "name" },
-        domProps: { value: _vm.name },
+        domProps: { value: _vm.webserver.name },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.name = $event.target.value
+            _vm.$set(_vm.webserver, "name", $event.target.value)
           }
         }
       })
@@ -38486,20 +38495,20 @@ var render = function() {
           {
             name: "model",
             rawName: "v-model.number",
-            value: _vm.port,
-            expression: "port",
+            value: _vm.webserver.port,
+            expression: "webserver.port",
             modifiers: { number: true }
           }
         ],
-        staticClass: "form-control col-md-6",
+        staticClass: "form-control",
         attrs: { type: "number", name: "port", id: "port" },
-        domProps: { value: _vm.port },
+        domProps: { value: _vm.webserver.port },
         on: {
           input: function($event) {
             if ($event.target.composing) {
               return
             }
-            _vm.port = _vm._n($event.target.value)
+            _vm.$set(_vm.webserver, "port", _vm._n($event.target.value))
           },
           blur: function($event) {
             _vm.$forceUpdate()
