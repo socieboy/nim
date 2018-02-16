@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NetworkInterfaceRequest;
 use App\Services\Network\NetworkInterface;
+use App\Http\Requests\NetworkInterfaceRequest;
+
 use Facades\App\Services\Network\NetworkInterfacesManager;
 
 class NetworkInterfaceController extends Controller
