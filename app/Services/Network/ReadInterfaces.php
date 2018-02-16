@@ -65,7 +65,7 @@ trait ReadInterfaces
 
     protected function type()
     {
-        $output = is_local_envorioment() ? 'GENERAL.TYPE:                           ethernet' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep IP4.TYPE');
+        $output = is_local_envorioment() ? 'GENERAL.TYPE:                           ethernet' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep GENERAL.TYPE');
         $output = explode(':', $output);
         if (isset($output[1])) return trim($output[1]);
         return '';
