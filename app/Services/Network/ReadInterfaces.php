@@ -71,7 +71,9 @@ trait ReadInterfaces
      */
     protected function interfaceValue($value)
     {
-        $output = is_local_envorioment() ? $this->commands[$value] . ':                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep ' . $value);
+        $command = 'nmcli device show ' . $this->device . ' | grep ' . $value;
+        Log::info($command);
+        $output = is_local_envorioment() ? $this->commands[$value] . ':                            192.11.88.1' . PHP_EOL : shell_exec($command);
         Log::info($output);
         $output = explode(':', $output);
         if (isset($output[1])) return trim($output[1]);
