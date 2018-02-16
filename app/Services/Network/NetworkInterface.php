@@ -74,7 +74,7 @@ class NetworkInterface
     /**
      * Create a new instance of Network Interface object.
      *
-     * @param $name
+     * @param $device
      */
     public function __construct($device)
     {
@@ -170,7 +170,7 @@ class NetworkInterface
      */
     public function apply()
     {
-        shell_exec('sudo ip addr flush ' . $this->name);
+        shell_exec('sudo ip addr flush ' . $this->device);
         shell_exec('sudo service networking restart');
         return $this;
     }
