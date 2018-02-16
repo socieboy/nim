@@ -72,6 +72,7 @@ enp1s0  ethernet  connected    Ifupdown (enp1s0)
 enp2s0  ethernet  connected    Ifupdown (enp2s0)
 enp3s0  ethernet  unavailable  --
 lo      loopback  unmanaged    --
+
 EOF;
         return $this->parseOutput($output);
     }
@@ -79,17 +80,15 @@ EOF;
     protected function parseOutput($output)
     {
         $output = explode(PHP_EOL, $output);
-        unset($output[count($output)]); // Remove last empty line of output.
-        unset($output[count($output) - 1]); // Remove the lo interface info.
-        unset($output[0]); // Remove header information.
-        Log::info($output);
         $array = [];
         foreach ($output as $key => $line) {
-            $out = (explode('  ', $line));
-            foreach ($out as $i => $x) {
-                if (empty($x)) unset($out[$i]);
+            if(!empty($line) && !str_contains($line, 'DEVICE  TYPE      STATE        CONNECTION') && !str_contains($line, 'lo      loopback')) {
+                $out = (explode('  ', $line));
+                foreach ($out as $i => $x) {
+                    if (empty($x)) unset($out[$i]);
+                }
+                $array[] = $out;
             }
-            $array[] = $out;
         }
         return $array;
     }
