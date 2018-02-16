@@ -73,7 +73,8 @@ trait ReadInterfaces
     {
 //        $output = is_local_envorioment() ? $this->commands[$value] . ':                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep ' . $this->commands[$value]);
         $output = shell_exec('nmcli device show ' . $this->device);
-        return array_map('trim', explode(':', $output)[1]);
-        return '';
+        $output array_map('trim', explode(':', $output)[1]);
+        Log::info($output);
+        return $output;
     }
 }
