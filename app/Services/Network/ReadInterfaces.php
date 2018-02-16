@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\File;
 
 trait ReadInterfaces
 {
+    /**
+     * Available properties from nmcli command.
+     *
+     * @var array
+     */
     protected $requiredValues = [
         'IP4.DNS[1]' => 'dns',
         'IP4.ADDRESS[1]' => 'ip',
@@ -15,12 +20,13 @@ trait ReadInterfaces
         'GENERAL.HWADDR' => 'mac',
         'GENERAL.CONNECTION' => 'connection',
     ];
+
     /**
      * Get the name of all interfaces from the system.
      *
      * @return string
      */
-    protected function readDeviceNames()
+    protected function readDevices()
     {
         $output = shell_exec("nmcli device status");
         $output = explode(PHP_EOL, $output);
@@ -63,6 +69,11 @@ trait ReadInterfaces
         return $new;
     }
 
+    /**
+     * Return the type of interface.
+     *
+     * @return string
+     */
     protected function type()
     {
         $output = is_local_envorioment() ? 'GENERAL.TYPE:                           ethernet' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep GENERAL.TYPE');
@@ -71,12 +82,28 @@ trait ReadInterfaces
         return '';
     }
 
+    /**
+     * Return the gateway.
+     *
+     * @return string
+     */
     protected function gateway()
     {
         $output = is_local_envorioment() ? 'IP4.GATEWAY:                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep IP4.GATEWAY');
         $output = explode(':', $output);
         if (isset($output[1])) return trim($output[1]);
         return '';
+    }
+
+    /**
+     * State
+     * @return mixed
+     */
+    protected function state()
+    {
+        $output = is_local_envorioment() ? 'GENERAL.STATE:                          100 (connected)' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep GENERAL.STATE');
+        preg_match('#\((.*?)\)#', $output, $state);
+        return $state[1];
     }
 
     /**

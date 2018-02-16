@@ -15,7 +15,7 @@ class NetworkInterfacesManager
      */
     public function read()
     {
-        $devices = is_local_envorioment() ? ['eth0', 'eth1'] : $this->readDeviceNames();
+        $devices = is_local_envorioment() ? ['eth0', 'eth1'] : $this->readDevices();
         $array = [];
         foreach ($devices as $device) {
             $array[$device] = new NetworkInterface($device);

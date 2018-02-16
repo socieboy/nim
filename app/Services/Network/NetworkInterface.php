@@ -30,6 +30,13 @@ class NetworkInterface
     public $conf_type = 'dhcp';
 
     /**
+     * State of the connection.
+     *
+     * @var string
+     */
+    public $state = '';
+
+    /**
      * Hardware MAC Address.
      *
      * @var string
@@ -111,6 +118,7 @@ class NetworkInterface
         $this->conf_type = $this->confType();
         $this->dns =$this->dns();
         $this->type = $this->type();
+        $this->state = $this->state();
     }
 
     /**
