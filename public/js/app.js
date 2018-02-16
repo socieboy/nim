@@ -38570,7 +38570,11 @@ var render = function() {
         "btn-outline-dark": _vm.response === null,
         "btn-danger": _vm.response === false
       },
-      attrs: { type: "button", disable: _vm.submitted },
+      attrs: {
+        type: "button",
+        disabled: _vm.submitted,
+        disable: _vm.submitted
+      },
       on: {
         click: function($event) {
           _vm.ping()
