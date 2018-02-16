@@ -79,8 +79,8 @@ EHF;
     protected function parseOutput($output)
     {
         $output = explode(PHP_EOL, $output);
-        unset($output[0]);
         unset($output[count($output)]);
+        unset($output[0]);
         Log::info($output);
         $array = [];
         foreach ($output as $key => $line) {
