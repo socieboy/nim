@@ -1817,7 +1817,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.submitted = true;
-            axios.post('/api/network-interfaces/' + this.from.name + '/ping').then(function (response) {
+            axios.post('/api/network-interfaces/' + this.from.device + '/ping').then(function (response) {
                 _this.submitted = false;
                 _this.response = response.data.status;
             }).catch(function (_ref) {

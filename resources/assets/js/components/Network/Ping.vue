@@ -25,7 +25,7 @@
         methods:{
             ping(){
                 this.submitted = true;
-                axios.post('/api/network-interfaces/' + this.from.name + '/ping').then(response => {
+                axios.post('/api/network-interfaces/' + this.from.device + '/ping').then(response => {
                     this.submitted = false;
                     this.response = response.data.status;
                 }).catch(({response}) => {
