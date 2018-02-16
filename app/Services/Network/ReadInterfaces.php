@@ -3,6 +3,7 @@
 namespace App\Services\Network;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 trait ReadInterfaces
 {
@@ -29,6 +30,7 @@ trait ReadInterfaces
     protected function readDevices()
     {
         $output = shell_exec("nmcli device status");
+        Log::info($output);
         $output = explode(PHP_EOL, $output);
         $interfaces = [];
         foreach ($output as $key => $line) {
