@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Log;
 trait ReadInterfaces
 {
     protected $commands = [
-        'dns' => 'IP4.DNS[1]',
+        'dns' => 'IP4.DNS',
         'gateway' => 'IP4.GATEWAY',
         'type' => 'GENERAL.TYPE',
         'mac' => 'GENERAL.HWADDR',
         'connection' => 'GENERAL.CONNECTION',
         'state' => 'GENERAL.STATE',
-        'ip' => 'IP4.ADDRESS[1]',
+        'ip' => 'IP4.ADDRESS',
     ];
     /**
      * Get the name of all interfaces from the system.
