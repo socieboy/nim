@@ -257,36 +257,8 @@ EOF;
 //
 //    protected function parseOutput($output)
 //    {
-//        $output = explode(PHP_EOL, $output);
-//        $interfaces = [];
-//        foreach ($output as $key => $line) {
-//            if ($this->isValidInterface($line)) {
-//                $out = $this->cleanInterfaceOutput($line);
-//                $interfaces[] = [
-//                    'device' => $out[0],
-//                    'type' => $out[1],
-//                    'state' => $out[2],
-//                    'connection' => $out[3]
-//                ];
-//            }
-//        }
-//        return $interfaces;
+
 //    }
 //
-//    protected function cleanInterfaceOutput($line)
-//    {
-//        $out = explode('  ', $line);
-//        $new = [];
-//        foreach ($out as $i => $x) {
-//            if (!empty($x)) {
-//                $new[] = $out[$i];
-//            }
-//        }
-//        return $new;
-//    }
-//
-//    protected function isValidInterface($line)
-//    {
-//        return !empty($line) && !str_contains($line, 'DEVICE  TYPE      STATE        CONNECTION') && !str_contains($line, 'lo      loopback');
-//    }
+
 }

@@ -15,11 +15,11 @@ class NetworkInterfacesManager
      */
     public function read()
     {
-        $interfaces = is_local_envorioment() ? ['eth0', 'eth1'] : $this->interfacesForProduction();
-        $array = [];
-        foreach ($interfaces as $interface) {
-            $array[$interface] = new NetworkInterface($interface);
-        }
+        return $interfaces = is_local_envorioment() ? ['eth0', 'eth1'] : $this->interfacesForProduction();
+//        $array = [];
+//        foreach ($interfaces as $interface) {
+//            $array[$interface] = new NetworkInterface($interface);
+//        }
         return $array;
     }
 
@@ -50,14 +50,42 @@ class NetworkInterfacesManager
      */
     protected function interfacesForProduction()
     {
-        $pattern = config('nim.interfaces.pattern');
-        $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
-        if (empty($output)) return [];
+        $output = shell_exec("nmcli device status");
         $output = explode(PHP_EOL, $output);
-        $array = [];
-        foreach ($output as $line) {
-            if (!empty($line)) $array[] = $line;
+        $interfaces = [];
+        foreach ($output as $key => $line) {
+            if ($this->isValidInterface($line)) {
+                $out = $this->cleanInterfaceOutput($line);
+                $interfaces[] = $out[0];
+            }
         }
-        return $array;
+        return $interfaces;
+
+//        $pattern = config('nim.interfaces.pattern');
+//        $output = shell_exec("ls -1 /sys/class/net | grep '{$pattern}'");
+//        if (empty($output)) return [];
+//        $output = explode(PHP_EOL, $output);
+//        $array = [];
+//        foreach ($output as $line) {
+//            if (!empty($line)) $array[] = $line;
+//        }
+//        return $array;
+    }
+
+    protected function cleanInterfaceOutput($line)
+    {
+        $out = explode('  ', $line);
+        $new = [];
+        foreach ($out as $i => $x) {
+            if (!empty($x)) {
+                $new[] = $out[$i];
+            }
+        }
+        return $new;
+    }
+
+    protected function isValidInterface($line)
+    {
+        return !empty($line) && !str_contains($line, 'DEVICE  TYPE      STATE        CONNECTION') && !str_contains($line, 'lo      loopback');
     }
 }
