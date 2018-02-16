@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Log;
 trait ReadInterfaces
 {
     protected $commands = [
-        'dns' => 'IP4.DNS',
-        'gateway' => 'IP4.GATEWAY',
-        'type' => 'GENERAL.TYPE',
-        'mac' => 'GENERAL.HWADDR',
+        'dns'        => 'IP4.DNS',
+        'ip'         => 'IP4.ADDRESS',
+        'gateway'    => 'IP4.GATEWAY',
+        'type'       => 'GENERAL.TYPE',
+        'state'      => 'GENERAL.STATE',
+        'mac'        => 'GENERAL.HWADDR',
         'connection' => 'GENERAL.CONNECTION',
-        'state' => 'GENERAL.STATE',
-        'ip' => 'IP4.ADDRESS',
     ];
     /**
      * Get the name of all interfaces from the system.
@@ -71,12 +71,9 @@ trait ReadInterfaces
      */
     protected function interfaceValue($value)
     {
-        $command = 'nmcli device show ' . $this->device . ' | grep ' . $this->commands[$value];
-        Log::info($command);
-        $output = is_local_envorioment() ? $this->commands[$value] . ':                            192.11.88.1' . PHP_EOL : shell_exec($command);
-        Log::info($output);
-        $output = explode(':', $output);
-        if (isset($output[1])) return trim($output[1]);
+//        $output = is_local_envorioment() ? $this->commands[$value] . ':                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep ' . $this->commands[$value]);
+        $output = shell_exec('nmcli device show ' . $this->device);
+        return array_map('trim', explode(':', $output)[1]);
         return '';
     }
 }
