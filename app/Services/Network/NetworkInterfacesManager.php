@@ -67,10 +67,10 @@ class NetworkInterfacesManager
     protected function interfacesForDev()
     {
         $output = <<<EHF
-DEVICE  TYPE      STATE        CONNECTION        
-enp1s0  ethernet  connected    Ifupdown (enp1s0) 
-enp2s0  ethernet  connected    Ifupdown (enp2s0) 
-enp3s0  ethernet  unavailable  --                
+DEVICE  TYPE      STATE        CONNECTION
+enp1s0  ethernet  connected    Ifupdown (enp1s0)
+enp2s0  ethernet  connected    Ifupdown (enp2s0)
+enp3s0  ethernet  unavailable  --
 lo      loopback  unmanaged    --
 EHF;
         return $this->parseOutput($output);
@@ -81,6 +81,7 @@ EHF;
         $output = explode(PHP_EOL, $output);
         unset($output[0]);
         unset($output[count($output)]);
+        Log::info($output);
         $array = [];
         foreach ($output as $key => $line) {
             $out = (explode('  ', $line));

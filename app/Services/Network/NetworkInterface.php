@@ -3,7 +3,6 @@
 namespace App\Services\Network;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 
 class NetworkInterface
 {
@@ -89,8 +88,6 @@ class NetworkInterface
         $command = 'sudo /sbin/ifconfig ' . $this->name;
 
         $output = is_local_envorioment() ? $this->interfaceOutputForDevelopment() : shell_exec($command);
-
-        Log::info($output);
 
         $regex = [];
 
