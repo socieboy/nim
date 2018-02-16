@@ -15,11 +15,11 @@ class NetworkInterfacesManager
      */
     public function read()
     {
-        return $interfaces = is_local_envorioment() ? ['eth0', 'eth1'] : $this->interfacesForProduction();
-//        $array = [];
-//        foreach ($interfaces as $interface) {
-//            $array[$interface] = new NetworkInterface($interface);
-//        }
+        $interfaces = is_local_envorioment() ? ['eth0', 'eth1'] : $this->interfacesForProduction();
+        $array = [];
+        foreach ($interfaces as $interface) {
+            $array[$interface] = new NetworkInterface($interface);
+        }
         return $array;
     }
 
