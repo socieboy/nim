@@ -35,6 +35,7 @@ class NetworkInterfacesManager
         try {
             $interface = new NetworkInterface($device);
             $interface->update($data)->apply();
+            return true;
         } catch (\Exception $exception) {
             Log::info($exception);
             return false;
