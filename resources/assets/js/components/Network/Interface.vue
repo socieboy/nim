@@ -33,7 +33,7 @@
             <i class="fa fa-spin fa-spinner" v-if="submitted"></i> <span v-text="submitted ? 'Saving...' : 'Save'"></span>
         </button>
 
-        <ping :from="network"></ping>
+        <ping v-if="isConnected" :from="network"></ping>
 
     </form>
 </template>
@@ -81,6 +81,10 @@
                     }
                 }
                 return true;
+            },
+
+            isConnected(){
+                return this.network.state == 'connected';
             }
         }
     }

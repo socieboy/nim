@@ -1721,6 +1721,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }
             return true;
+        },
+        isConnected: function isConnected() {
+            return this.network.state == 'connected';
         }
     }
 });
@@ -38819,7 +38822,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("ping", { attrs: { from: _vm.network } })
+      _vm.isConnected ? _c("ping", { attrs: { from: _vm.network } }) : _vm._e()
     ],
     1
   )
