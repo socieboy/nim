@@ -135,7 +135,8 @@ class NetworkInterface
         $content .= 'iface ' . $this->device . ' inet ';
 
         if ($data['conf_type'] == 'dhcp') {
-            $content .= 'dhcp';
+            $content .= 'dhcp' . PHP_EOL;
+            $content .= 'metric 1000';
             return $this->writeFile($content);
         }
 
