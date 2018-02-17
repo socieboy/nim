@@ -136,7 +136,7 @@ class NetworkInterface
 
         if ($data['conf_type'] == 'dhcp') {
             $content .= 'dhcp' . PHP_EOL;
-            $content .= 'metric 1000';
+            $content .= 'metric ' . $data['metric'];
             return $this->writeFile($content);
         }
 
