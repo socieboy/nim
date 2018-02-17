@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <label for="metric">Metric</label>
-            <input type="text" v-model.number="network.metric" :readonly="!isStatic" name="metric" id="metric" class="form-control" :required="isStatic">
+            <input type="number" v-model.number="network.metric" name="metric" id="metric" class="form-control" required>
         </div>
 
         <button class="btn btn-primary pull-right" type="button" :disabled="!canSave || submitted" @click="save()">
@@ -79,7 +79,7 @@
             },
 
             canSave(){
-                if (this.isDhcp) return true;
+                if (this.isDhcp && !isNaN(parseInt(this.network.metric))) return true;
                 for (var key in this.network) {
                     if (typeof this.network[key] == 'string') {
                         if (this.network[key].trim() == '') return false;

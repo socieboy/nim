@@ -1719,7 +1719,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return !this.isStatic;
         },
         canSave: function canSave() {
-            if (this.isDhcp) return true;
+            if (this.isDhcp && !isNaN(parseInt(this.network.metric))) return true;
             for (var key in this.network) {
                 if (typeof this.network[key] == 'string') {
                     if (this.network[key].trim() == '') return false;
@@ -38817,13 +38817,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
-          attrs: {
-            type: "text",
-            readonly: !_vm.isStatic,
-            name: "metric",
-            id: "metric",
-            required: _vm.isStatic
-          },
+          attrs: { type: "number", name: "metric", id: "metric", required: "" },
           domProps: { value: _vm.network.metric },
           on: {
             input: function($event) {

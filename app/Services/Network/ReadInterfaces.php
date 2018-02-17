@@ -50,7 +50,7 @@ trait ReadInterfaces
      */
     protected function isValidInterface($line)
     {
-        return !empty($line) && !str_contains($line, 'DEVICE') && !str_contains($line, 'loopback') && !str_contains($line, 'wlp2s0');
+        return !empty($line) && !str_contains($line, 'DEVICE') && !str_contains($line, 'loopback') && !str_contains($line, 'wlp');
     }
 
     /**
