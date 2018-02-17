@@ -1769,6 +1769,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -38400,30 +38401,32 @@ var render = function() {
       "ul",
       { staticClass: "nav nav-tabs", attrs: { id: "Tabs", role: "tablist" } },
       _vm._l(_vm.interfaces, function(interface, key, index) {
-        return _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              class: { active: index == 0 },
-              attrs: {
-                id: interface.device + "-tab",
-                href: "#" + interface.device,
-                "aria-controls": interface.device,
-                "data-toggle": "tab",
-                role: "tab",
-                "aria-selected": "true"
-              }
-            },
-            [
-              _vm._v(
-                "\n               " +
-                  _vm._s(interface.device) +
-                  "\n            "
+        return interface.state == "connected"
+          ? _c("li", { staticClass: "nav-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link",
+                  class: { active: index == 0 },
+                  attrs: {
+                    id: interface.device + "-tab",
+                    href: "#" + interface.device,
+                    "aria-controls": interface.device,
+                    "data-toggle": "tab",
+                    role: "tab",
+                    "aria-selected": "true"
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n               " +
+                      _vm._s(interface.device) +
+                      "\n            "
+                  )
+                ]
               )
-            ]
-          )
-        ])
+            ])
+          : _vm._e()
       })
     ),
     _vm._v(" "),
@@ -38431,20 +38434,22 @@ var render = function() {
       "div",
       { staticClass: "tab-content", attrs: { id: "TabContent" } },
       _vm._l(_vm.interfaces, function(interface, key, index) {
-        return _c(
-          "div",
-          {
-            staticClass: "tab-pane fade",
-            class: { " show active": index == 0 },
-            attrs: {
-              id: interface.device,
-              "aria-labelledby": interface.device + "-tab",
-              role: "tabpanel"
-            }
-          },
-          [_c("network-interface", { attrs: { interface: interface } })],
-          1
-        )
+        return interface.state == "connected"
+          ? _c(
+              "div",
+              {
+                staticClass: "tab-pane fade",
+                class: { " show active": index == 0 },
+                attrs: {
+                  id: interface.device,
+                  "aria-labelledby": interface.device + "-tab",
+                  role: "tabpanel"
+                }
+              },
+              [_c("network-interface", { attrs: { interface: interface } })],
+              1
+            )
+          : _vm._e()
       })
     )
   ])
@@ -38817,7 +38822,13 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
-          attrs: { type: "number", name: "metric", id: "metric", required: "" },
+          attrs: {
+            type: "number",
+            readonly: !_vm.isConnected,
+            name: "metric",
+            id: "metric",
+            required: ""
+          },
           domProps: { value: _vm.network.metric },
           on: {
             input: function($event) {

@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <label for="metric">Metric</label>
-            <input type="number" v-model.number="network.metric" name="metric" id="metric" class="form-control" required>
+            <input type="number" v-model.number="network.metric" :readonly="!isConnected" name="metric" id="metric" class="form-control" required>
         </div>
 
         <button class="btn btn-primary pull-right" type="button" :disabled="!canSave || submitted" @click="save()">

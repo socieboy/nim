@@ -1,7 +1,7 @@
 <template>
     <div class="network-manager">
         <ul class="nav nav-tabs" id="Tabs" role="tablist">
-            <li class="nav-item" v-for="(interface, key, index) in interfaces">
+            <li class="nav-item" v-for="(interface, key, index) in interfaces" v-if="interface.state == 'connected'">
                 <a class="nav-link"
                    :class="{'active' : index == 0}"
                    :id="interface.device + '-tab'"
@@ -17,6 +17,7 @@
         <div class="tab-content" id="TabContent">
             <div class="tab-pane fade"
                  v-for="(interface, key, index) in interfaces"
+                 v-if="interface.state == 'connected'"
                  :class="{' show active' : index == 0}"
                  :id="interface.device"
                  :aria-labelledby="interface.device + '-tab'"
