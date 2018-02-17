@@ -29,6 +29,11 @@
             <input type="text" v-model="network.dns" :readonly="!isStatic" name="dns" id="dns" class="form-control" :required="isStatic">
         </div>
 
+        <div class="form-group">
+            <label for="metric">Metric</label>
+            <input type="text" v-model.number="network.metric" :readonly="!isStatic" name="metric" id="metric" class="form-control" :required="isStatic">
+        </div>
+
         <button class="btn btn-primary pull-right" type="button" :disabled="!canSave || submitted" @click="save()">
             <i class="fa fa-spin fa-spinner" v-if="submitted"></i> <span v-text="submitted ? 'Saving...' : 'Save'"></span>
         </button>

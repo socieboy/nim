@@ -30,6 +30,7 @@ class NetworkInterfaceRequest extends FormRequest
             'netmask' => ['required_if:conf_type,static', new IpAddress],
             'gateway' => ['required_if:conf_type,static', new IpAddress],
             'dns' => ['required_if:conf_type,static', new IpAddress],
+            'metric' => ['required_if:conf_type,static|numeric'],
         ];
     }
 }

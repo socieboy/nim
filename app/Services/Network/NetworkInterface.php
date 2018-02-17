@@ -143,7 +143,8 @@ class NetworkInterface
         $content .= 'address ' . $data['ip_address'] . PHP_EOL;
         $content .= 'netmask ' . $data['netmask'] . PHP_EOL;
         $content .= 'gateway ' . $data['gateway'] . PHP_EOL;
-        $content .= 'dns-nameservers ' . $data['dns'];
+        $content .= 'dns-nameservers ' . $data['dns'] . PHP_EOL;
+        $content .= 'metric ' . $data['metric'];
         return $this->writeFile($content);
     }
 
@@ -167,11 +168,6 @@ class NetworkInterface
      */
     public function ping($endpoint = 'google.com')
     {
-//        $command = 'ping -I ' . $this->device . ' -w 10 -c 1 ' . $endpoint;
-//        exec($command, $result);
-//        Log::info($result);
-//        $result = implode(' ', $result);
-//        return (str_contains($result, ' bytes from ' . $this->ip_address . ' ' . $this->device . ':') && str_contains($result, '0% packet loss')) ? true : false;
         exec('ping -I ' . $this->device . ' -w 10 -c 1 ' . $endpoint, $result);
         $result = implode(' ', $result);
         return (str_contains($result, ' bytes from ') && str_contains($result, '0% packet loss')) ? true : false;

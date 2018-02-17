@@ -1676,6 +1676,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -38793,6 +38798,42 @@ var render = function() {
                 return
               }
               _vm.$set(_vm.network, "dns", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "metric" } }, [_vm._v("Metric")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model.number",
+              value: _vm.network.metric,
+              expression: "network.metric",
+              modifiers: { number: true }
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            readonly: !_vm.isStatic,
+            name: "metric",
+            id: "metric",
+            required: _vm.isStatic
+          },
+          domProps: { value: _vm.network.metric },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.network, "metric", _vm._n($event.target.value))
+            },
+            blur: function($event) {
+              _vm.$forceUpdate()
             }
           }
         })
