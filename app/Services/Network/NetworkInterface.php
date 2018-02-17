@@ -115,7 +115,7 @@ class NetworkInterface
         $this->ip_address = $regex[4];
         $this->gateway = $this->gateway();
         $this->netmask = $regex[6];
-        $this->metric = intval($regex[8]);
+        $this->metric = $this->metric();
         $this->conf_type = $this->confType();
         $this->dns =$this->dns();
         $this->type = $this->type();

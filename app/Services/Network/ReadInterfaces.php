@@ -125,6 +125,18 @@ trait ReadInterfaces
         return $result;
     }
 
+    protected function metric()
+    {
+        $lines = (explode(PHP_EOL, File::get($this->interfaceFilePath())));
+        $out = '1000';
+        foreach ($lines as $line) {
+            if (str_contains($line, 'metric')) {
+                $out = explode(' ', $line)[1];
+            }
+        }
+        return $out;
+    }
+
     /**
      * Read the dns-nameservers address line from the interface file.
      *
