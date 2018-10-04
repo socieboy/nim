@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Services\Network\NetworkInterface;
 use App\Http\Requests\NetworkInterfaceRequest;
-
+use App\Services\Network\NetworkInterface;
 use Facades\App\Services\Network\NetworkInterfacesManager;
 
 class NetworkInterfaceController extends Controller
@@ -25,11 +24,13 @@ class NetworkInterfaceController extends Controller
      *
      * @param NetworkInterfaceRequest $request
      * @param $interface
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function store(NetworkInterfaceRequest $request, $interface)
     {
         $status = NetworkInterfacesManager::write($interface, $request->all());
+
         return response(['status' => $status]);
     }
 
@@ -37,11 +38,13 @@ class NetworkInterfaceController extends Controller
      * Ping with network interface provided.
      *
      * @param $interface
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function show($interface)
     {
         $status = (new NetworkInterface($interface))->ping();
+
         return response(['status' => $status]);
     }
 }

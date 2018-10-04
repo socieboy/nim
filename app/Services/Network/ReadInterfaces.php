@@ -12,12 +12,12 @@ trait ReadInterfaces
      * @var array
      */
     protected $requiredValues = [
-        'IP4.DNS[1]' => 'dns',
-        'IP4.ADDRESS[1]' => 'ip',
-        'IP4.GATEWAY' => 'gateway',
-        'GENERAL.TYPE' => 'conf',
-        'GENERAL.STATE' => 'state',
-        'GENERAL.HWADDR' => 'mac',
+        'IP4.DNS[1]'         => 'dns',
+        'IP4.ADDRESS[1]'     => 'ip',
+        'IP4.GATEWAY'        => 'gateway',
+        'GENERAL.TYPE'       => 'conf',
+        'GENERAL.STATE'      => 'state',
+        'GENERAL.HWADDR'     => 'mac',
         'GENERAL.CONNECTION' => 'connection',
     ];
 
@@ -28,7 +28,7 @@ trait ReadInterfaces
      */
     protected function readDevices()
     {
-        $output = shell_exec("nmcli device status");
+        $output = shell_exec('nmcli device status');
         $output = explode(PHP_EOL, $output);
         $interfaces = [];
         foreach ($output as $key => $line) {
@@ -37,6 +37,7 @@ trait ReadInterfaces
                 $interfaces[] = $out[0];
             }
         }
+
         return $interfaces;
     }
 
@@ -44,6 +45,7 @@ trait ReadInterfaces
      * Check if the line is a interface information.
      *
      * @param $line
+     *
      * @return bool
      */
     protected function isValidInterface($line)
@@ -55,6 +57,7 @@ trait ReadInterfaces
      * Clean the line output for the interface.
      *
      * @param $line
+     *
      * @return array
      */
     protected function cleanInterfaceOutput($line)
@@ -66,6 +69,7 @@ trait ReadInterfaces
                 $new[] = $out[$i];
             }
         }
+
         return $new;
     }
 
@@ -76,9 +80,12 @@ trait ReadInterfaces
      */
     protected function type()
     {
-        $output = is_local_envorioment() ? 'GENERAL.TYPE:                           ethernet' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep GENERAL.TYPE');
+        $output = is_local_envorioment() ? 'GENERAL.TYPE:                           ethernet'.PHP_EOL : shell_exec('nmcli device show '.$this->device.' | grep GENERAL.TYPE');
         $output = explode(':', $output);
-        if (isset($output[1])) return trim($output[1]);
+        if (isset($output[1])) {
+            return trim($output[1]);
+        }
+
         return '';
     }
 
@@ -89,20 +96,25 @@ trait ReadInterfaces
      */
     protected function gateway()
     {
-        $output = is_local_envorioment() ? 'IP4.GATEWAY:                            192.11.88.1' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep IP4.GATEWAY');
+        $output = is_local_envorioment() ? 'IP4.GATEWAY:                            192.11.88.1'.PHP_EOL : shell_exec('nmcli device show '.$this->device.' | grep IP4.GATEWAY');
         $output = explode(':', $output);
-        if (isset($output[1])) return trim($output[1]);
+        if (isset($output[1])) {
+            return trim($output[1]);
+        }
+
         return '';
     }
 
     /**
-     * State
+     * State.
+     *
      * @return mixed
      */
     protected function state()
     {
-        $output = is_local_envorioment() ? 'GENERAL.STATE:                          100 (connected)' . PHP_EOL : shell_exec('nmcli device show ' . $this->device . ' | grep GENERAL.STATE');
+        $output = is_local_envorioment() ? 'GENERAL.STATE:                          100 (connected)'.PHP_EOL : shell_exec('nmcli device show '.$this->device.' | grep GENERAL.STATE');
         preg_match('#\((.*?)\)#', $output, $state);
+
         return $state[1];
     }
 
@@ -116,10 +128,11 @@ trait ReadInterfaces
         $lines = (explode(PHP_EOL, File::get($this->interfaceFilePath())));
         $result = 'dhcp';
         foreach ($lines as $line) {
-            if ("iface " . $this->device . " inet static" == $line) {
+            if ('iface '.$this->device.' inet static' == $line) {
                 $result = 'static';
             }
         }
+
         return $result;
     }
 
@@ -134,9 +147,11 @@ trait ReadInterfaces
         foreach ($lines as $line) {
             if (str_contains($line, 'dns-nameservers')) {
                 $data = explode(' ', $line);
+
                 return isset($data[1]) ? $data[1] : '';
             }
         }
+
         return '';
     }
 
@@ -145,7 +160,7 @@ trait ReadInterfaces
      *
      * @return string
      */
-    protected function  interfaceOutputForDevelopment()
+    protected function interfaceOutputForDevelopment()
     {
         return <<<EOF
 {$this->device}      Link encap:Ethernet  HWaddr aa:57:82:94:01:47  
@@ -166,10 +181,11 @@ EOF;
      */
     protected function interfaceFilePath()
     {
-        $path = (is_local_envorioment()) ? base_path('resources/stubs/interface_' . $this->device) : '/etc/network/interfaces.d/interface_' . $this->device;
+        $path = (is_local_envorioment()) ? base_path('resources/stubs/interface_'.$this->device) : '/etc/network/interfaces.d/interface_'.$this->device;
         if (!File::exists($path)) {
             File::put($path, '');
         }
+
         return $path;
     }
 }

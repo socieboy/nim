@@ -20,6 +20,7 @@ class NetworkInterfacesManager
         foreach ($devices as $device) {
             $array[$device] = new NetworkInterface($device);
         }
+
         return $array;
     }
 
@@ -28,6 +29,7 @@ class NetworkInterfacesManager
      *
      * @param $interface
      * @param $data
+     *
      * @return int
      */
     public function write($device, $data)
@@ -35,9 +37,11 @@ class NetworkInterfacesManager
         try {
             $interface = new NetworkInterface($device);
             $interface->update($data)->apply();
+
             return true;
         } catch (\Exception $exception) {
             Log::info($exception);
+
             return false;
         }
     }

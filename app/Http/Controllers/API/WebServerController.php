@@ -11,9 +11,10 @@ class WebServerController extends Controller
     {
         return [
             'name' => config('app.name'),
-            'port' => 80
+            'port' => 80,
         ];
     }
+
     /**
      * Update the webserver listening port.
      *
@@ -23,6 +24,7 @@ class WebServerController extends Controller
     {
         request()->validate(['port' => 'required|numeric']);
         $status = WebServer::update(request('port'));
+
         return response(['status' => $status]);
     }
 }
