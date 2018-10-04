@@ -25,11 +25,11 @@ class NetworkInterfaceRequest extends FormRequest
     public function rules()
     {
         return [
-            'conf_type' => 'required|in:dhcp,static',
-            'ip_address' => ['required_if:conf_type,static', new IpAddress],
-            'netmask' => ['required_if:conf_type,static', new IpAddress],
-            'gateway' => ['required_if:conf_type,static', new IpAddress],
-            'dns' => ['required_if:conf_type,static', new IpAddress],
+            'conf_type'  => 'required|in:dhcp,static',
+            'ip_address' => ['required_if:conf_type,static', new IpAddress()],
+            'netmask'    => ['required_if:conf_type,static', new IpAddress()],
+            'gateway'    => ['required_if:conf_type,static', new IpAddress()],
+            'dns'        => ['required_if:conf_type,static', new IpAddress()],
         ];
     }
 }

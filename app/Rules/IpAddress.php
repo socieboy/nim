@@ -6,7 +6,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class IpAddress implements Rule
 {
-
     /**
      * Create a new rule instance.
      *
@@ -20,8 +19,9 @@ class IpAddress implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
@@ -29,6 +29,7 @@ class IpAddress implements Rule
         if (request('conf_type') == 'static') {
             return preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $value);
         }
+
         return true;
     }
 
